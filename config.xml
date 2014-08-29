@@ -61,6 +61,8 @@
       <preference name="InAppBrowserStorageEnabled" value="true" />
       <preference name="disallowOverscroll" value="true" />
     -->
+	
+	<gap:plugin name="com.phonegap.plugins.barcodescanner"/>
 
     <feature name="App">
       <param name="android-package" value="org.apache.cordova.App"/>
