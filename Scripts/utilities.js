@@ -10,6 +10,20 @@ function getLoadingImg()
 
 
 
+var localstorage = {
+    set: function (key, value) {
+        window.localStorage.setItem( key, JSON.stringify(value) );
+    },
+    get: function (key) {
+        try {
+            return JSON.parse( window.localStorage.getItem(key) );
+        } catch (e) {
+            return null;
+        }
+    }
+};
+
+/*
 var createCookie = function(name, value, days) {
     var expires;
     if (days) {
@@ -37,3 +51,4 @@ function getCookie(c_name) {
     }
     return "";
 }
+*/

@@ -6,6 +6,7 @@ var isUserLogin = false;
 var userAuthenticationHeader = "";
 var loggedUserDisplayName = "";
 var loggedUserEmail = "";
+var loggedUserPhone = "";
 
 $(document).ready(function () {
 	checkUserLogin();
@@ -48,14 +49,16 @@ function SignOut()
 		jsonpCallback: "",
     });
 
-	createCookie("userAuthenticationHeader", "", -1);
-	createCookie("loggedUserDisplayName", "", -1);
-	createCookie("loggedUserEmail", "", -1);
+	localstorage.set("userAuthenticationHeader", "");
+	localstorage.set("loggedUserDisplayName", "");
+	localstorage.set("loggedUserEmail", "");
+	localstorage.set("loggedUserPhone", "");
 	
 	isUserLogin = false;
 	userAuthenticationHeader = "";
 	loggedUserDisplayName = "";
 	loggedUserEmail = "";
+	loggedUserPhone = "";
 	
 	$.mobile.navigate("#pgLogin");
 }
@@ -63,23 +66,19 @@ function SignOut()
 
 function checkUserLogin()
 {
+	userAuthenticationHeader = localstorage.get("userAuthenticationHeader");
+	loggedUserDisplayName = localstorage.get("loggedUserDisplayName");
+	loggedUserEmail = localstorage.get("loggedUserEmail");
+	loggedUserPhone = localstorage.get("loggedUserPhone");
+	
+	isUserLogin = (userAuthenticationHeader && loggedUserDisplayName && loggedUserEmail);
+	
     if (!isUserLogin)
 	{
-		userAuthenticationHeader = getCookie("userAuthenticationHeader");
-		loggedUserDisplayName = getCookie("loggedUserDisplayName");
-		loggedUserEmail = getCookie("loggedUserEmail");
-		
-		if (userAuthenticationHeader != "" && loggedUserDisplayName != "" && loggedUserEmail != "")
-		{
-			isUserLogin = true;
-			$(".spanLoginUser").text("" +loggedUserDisplayName);
-			if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
-				$.mobile.navigate("#pgHome");
-		}
-		else
-			$.mobile.navigate("#pgLogin");
+		$.mobile.navigate("#pgLogin");
 	}
 	else {
+		$(".spanLoginUser").text("" +loggedUserDisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			$.mobile.navigate("#pgHome");
 	}
@@ -132,6 +131,7 @@ function callbackLogin( data ){
 	{
 		loggedUserDisplayName = data.d.results.name;
 		loggedUserEmail = data.d.results.email;
+		loggedUserPhone = data.d.results.phone;
 		$(".spanLoginUser").text("" +loggedUserDisplayName);
 		
 		var duration = 0.04; // 1 hour
@@ -139,9 +139,10 @@ function callbackLogin( data ){
 			duration = 7; // 7 days
 		
 		
-		createCookie("userAuthenticationHeader", userAuthenticationHeader, duration);
-		createCookie("loggedUserDisplayName", loggedUserDisplayName, duration);
-		createCookie("loggedUserEmail", loggedUserEmail, duration);
+		localstorage.set("userAuthenticationHeader", userAuthenticationHeader);
+		localstorage.set("loggedUserDisplayName", loggedUserDisplayName);
+		localstorage.set("loggedUserEmail", loggedUserEmail);
+		localstorage.set("loggedUserPhone", loggedUserPhone);
 		
 		$.mobile.navigate("#pgHome");
 	}
@@ -633,7 +634,7 @@ function saveStatus(isFinal) {
 		ConfirmSystemHddEmptiedOfAllPatientStudies : $('input[name=ConfirmSystemHddEmptiedOfAllPatientStudies]:checked').val(),
 		ConfirmModalityWorkListRemovedFromSystem : $('input[name=ConfirmModalityWorkListRemovedFromSystem]:checked').val(),
 		LayoutChangeExplain : $("#LayoutChangeExplain").val(),
-		userInfo: {WorkPhone: "1234567890"},
+		userInfo: {WorkPhone: loggedUserPhone},
 		
 		SystemType : $("#inputSystemType").val(),
 		SystemSerialNumber : $("#inputSystemSerialNumber").val(),
@@ -702,7 +703,7 @@ function saveStatus(isFinal) {
 	
 	
 	if (sure) {
-		if ($scope.recordId != "" && !($scope.recordId > 0))
+		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
 			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userAuthenticationHeader;
