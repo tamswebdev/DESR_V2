@@ -33,7 +33,7 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 
 function ShowHelp()
 {
-	$.mobile.navigate( "#pgHelp" );
+	NavigatePage( "#pgHelp" );
 }
 
 function SignOut()
@@ -60,7 +60,7 @@ function SignOut()
 	loggedUserEmail = "";
 	loggedUserPhone = "";
 	
-	$.mobile.navigate("#pgLogin");
+	NavigatePage("#pgLogin");
 }
 
 
@@ -75,24 +75,12 @@ function checkUserLogin()
 	
     if (!isUserLogin)
 	{
-		$.mobile.navigate("#pgLogin");
+		NavigatePage("#pgLogin");
 	}
 	else {
 		$(".spanLoginUser").text("" +loggedUserDisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
-			$.mobile.navigate("#pgHome");
-	}
-	
-	//show logo
-	if (location.href.indexOf("#pgHome") > 0 || location.href.indexOf("#pgLogin") > 0)
-	{
-		$(".appLogoLink").show();
-		$(".appLogoBackLink").hide();
-	}
-	else
-	{
-		$(".appLogoLink").hide();
-		$(".appLogoBackLink").show();
+			NavigatePage("#pgHome");
 	}
 }
 
@@ -109,6 +97,8 @@ function LoginUser()
 		showTimedElem('td-error');
 		return;
 	}
+
+	$("#td-error").text("").append(getLoadingMini());
 	
 	var loginname = ($('#login').val().indexOf("\\") > 0) ? $('#login').val() : "tamsdomain\\" + $('#login').val();
 	userAuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
@@ -119,6 +109,7 @@ function LoginUser()
             type:"GET",
             contentType: "application/json; charset=utf-8",
             async:true,
+			cache: false,
             url: _url,
             data: {},
             dataType: "jsonp",                
@@ -144,7 +135,7 @@ function callbackLogin( data ){
 		localstorage.set("loggedUserEmail", loggedUserEmail);
 		localstorage.set("loggedUserPhone", loggedUserPhone);
 		
-		$.mobile.navigate("#pgHome");
+		NavigatePage("#pgHome");
 	}
 	else {
 		userAuthenticationHeader = "";
@@ -153,9 +144,14 @@ function callbackLogin( data ){
 }
 
 
+function goBack()
+{
+	history.go(-1);
+}
+
 function goHome()
 {
-	$.mobile.navigate("#pgHome", { transition : "slide", info: "info about the #bar hash" });
+	NavigatePage("#pgHome");
 }
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
@@ -163,13 +159,13 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	$('#searchCatalogs').keyup(function (event) {
 		if (event.which == 13) {
-			$.mobile.navigate("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+			NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
 			performSearch();
 		}
 	});
 	
 	$("#filterDocumentType").change(function (event) {
-		$.mobile.navigate("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+		NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
 		performSearch();
 	})
 	
@@ -264,12 +260,13 @@ function callbackPopulateSearchResults(data)
 	else
 	{
 		//no item
+		$( "#divSearchResults" ).text("").append("<br /><center>No item found.</center>");
 	}
 }
 
 function addStatusAction(id)
 {
-	$.mobile.navigate('#pgAddStatus?id=' + id);
+	NavigatePage('#pgAddStatus?id=' + id);
 }
 
 
@@ -298,7 +295,7 @@ $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {
 
 function callbackPopulateHistories(data)
 {
-	console.log(data);
+	//console.log(data);
 	if (data.d.results.length > 0)
 	{
 		$( "#divHistoryResults" ).text("");
@@ -453,6 +450,10 @@ function callbackPopulateHistories(data)
 			$("div.itemid_" + _id).next().show();
 		}
 	}
+	else 
+	{
+		$( "#divHistoryResults" ).text("").append("<br /><center>No history found.</center>");
+	}
 }
 
 function toggleHistoryStatusDetails(obj) {
@@ -472,6 +473,8 @@ function saveAdditionalComment(id) {
 	$("#divAddCommentError" + id).hide();
 
 	if (jQuery.trim(comment) != "") {
+		$("#divAddCommentError" + id).text("").append(getLoadingMini()).show();
+		
 		$.ajax({
 			crossDomain: true,
 			type:"GET",
@@ -484,16 +487,16 @@ function saveAdditionalComment(id) {
 		});
 	}
 	else {
-		$("#divAddCommentError" + id).show();
+		$("#divAddCommentError" + id).text("").append("* Comment cannot be empty").show();
 	}
 };
 
 function callbackAddComment(data)
 {
-	console.log(data);
+	//console.log(data);
 	if (data.d.results.length > 0)
 	{
-		$.mobile.navigate("#pgRedirect?url=" + encodeURIComponent("#pgHistory?id=" + data.d.results[0]));
+		NavigatePage("#pgRedirect?url=" + encodeURIComponent("#pgHistory?id=" + data.d.results[0]));
 	}
 }
 
@@ -501,6 +504,20 @@ function callbackAddComment(data)
 /******************* Add Status ***********************/
 $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	checkUserLogin();
+	
+	//clear the form
+	$("table.table-add-status").find("input").each(function() {
+		if ($(this).attr("type") == "text")
+			$(this).val("");
+		if ($(this).attr("type") == "radio")
+			$(this).filter('[value=Yes]').prop('checked', true);
+	});	
+	$("table.table-add-status").find("input[type=radio]").checkboxradio("refresh");
+	$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
+	$("#LayoutChangeExplainTR").hide();
+	$("#systemPerformedNotAsExpectedExplainTR").hide();
+	$("#selectModality").prop('selectedIndex', 0);
+	
 	
 	if ($.urlParam("id") == "")
 	{
@@ -592,7 +609,7 @@ function callbackLoadAddStatus(data)
 
 function callbackGetCPLValues(data)
 {
-	console.log(data);
+	//console.log(data);
 	if (data.d.results.length > 0)
 	{
 		$('#controlPanelLayout option[value!=""]').remove();
@@ -612,7 +629,7 @@ function callbackGetCPLValues(data)
 function cancelStatus() {
 	var sure = confirm('Cancel the status update and go back to main screen?');
 	if (sure) {
-		$.mobile.navigate('#pgHome');
+		NavigatePage('#pgHome');
 	}
 }
 
@@ -643,7 +660,7 @@ function saveStatus(isFinal) {
 		Modality : $("#selectModality").val()
 	};
 
-	console.log($scope);
+	//console.log($scope);
 	
 	if ($scope.recordId == "" || !($scope.recordId > 0))
 	{
@@ -703,6 +720,11 @@ function saveStatus(isFinal) {
 	
 	
 	if (sure) {
+		
+		//show saving animation
+		$('#error-div2').text("").append(getLoadingMini());
+		showTimedElem('error-div2');
+	
 		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
@@ -739,10 +761,10 @@ function saveStatus(isFinal) {
 
 function callbackSaveStatus(data)
 {
-	console.log(data);
+	//console.log(data);
 	if (data.d.results.length > 0 && parseInt(data.d.results[0]) > 0)
 	{
-		$.mobile.navigate('#pgHistory');
+		NavigatePage('#pgHistory');
 	}
 	else 
 	{
@@ -761,9 +783,21 @@ function showTimedElem(id)
 $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 	if ($.urlParam("url"))
 	{
-		$.mobile.navigate(decodeURIComponent($.urlParam("url")));
+		NavigatePage(decodeURIComponent($.urlParam("url")));
 	}
 });
+
+
+/*********************************************************/
+/******************* Helping Method **********************/
+
+function NavigatePage(pageid)
+{
+	$.mobile.navigate(pageid, { transition : "slide"});
+}
+
+
+
 
 
 

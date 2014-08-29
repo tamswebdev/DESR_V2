@@ -8,6 +8,11 @@ function getLoadingImg()
 	return '<img style="margin-top: 20px;" src="Images/loading.gif" border="0" />';
 }
 
+function getLoadingMini()
+{
+	return '<img src="Images/ajax-loader-min.gif" border="0" />';
+}
+
 
 
 var localstorage = {

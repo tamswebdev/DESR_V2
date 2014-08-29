@@ -16,10 +16,16 @@
 <body>
     <div data-role="page" id="startpage" data-theme="a">
         <div data-role="header">
-            <table width="100%" cellspacing="0" cellpadding="0" style="height: 72px;">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
-					<td align="center" valign="bottom">
-                        <a onclick="" href="main.html#/home" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+					<td class="header-left">
+						&nbsp;
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
@@ -32,14 +38,19 @@
 
     <div data-role="page" id="pgLogin">
 	    <div data-role="header">
-			<table width="100%" cellspacing="0" cellpadding="0" style="height: 72px;">
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
-					<td align="center" valign="bottom">
-                        <a onclick="" href="main.html#/home" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+					<td class="header-left">
+						&nbsp;
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
-            
 	    </div>
 	    <div role="main" class="ui-content">        
             <div class="form-div">
@@ -50,11 +61,11 @@
                     <tr><td class="login-input"><input class="form-control" type="text" id="login" /></td></tr>
                     <tr><td class="login-label">Password</td></tr>
                     <tr><td class="login-input"><input class="form-control" type="password" id="password" /></td></tr>
-                    <tr><td id="td-error"></td></tr>
                     <tr><td class="login-label">
 						<input type="checkbox" name="rememberMe" id="rememberMe" />
 						<label for="rememberMe">Remember me</label>
 					</td></tr>
+                    <tr><td id="td-error"></td></tr>
                     <tr><td class="login-button"><input class="common-button" type="button" id="btnLoginSubmit" value="LOGIN" onclick="LoginUser()" /></td></tr>
                 </table>
 				<div class="copyright">TOSHIBA CORPORATION 2014. ALL RIGHTS RESERVED<br />V1.0<br />FOR INTERNAL USE ONLY</div>
@@ -68,24 +79,29 @@
 	
 	<div data-role="page" id="pgHome">
         <div data-role="header">
-            <table width="100%" cellspacing="0" cellpadding="0">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-                        <a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
-                        <a onclick="history.go(-1);" href="javascript:void(0);" style="display:none;" class="appLogoBackLink"><img src="Images/logo-back.png" id=""></a>
-                    </td>
-                    <td class="header-right">
-						<div class="header-right-menu">
+						<div style="width: 5px; display:inline-block;"></div>
+						<div class="header-menu-button">
 							<a href="#popupMenu" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
 									</ul>
 							</div>
 						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
@@ -100,9 +116,9 @@
 			<br />
 			<br />
 			<center>
-				<div class="rounded-corners home-tip-box">
+				<div class="home-tip-box">
 					<div><b>Steps:</b></div>
-					<div>
+					<div align="left">
 						<ol>
 							<li>Id paulo elaboraret ius, quaestio theophrastus pro ex.</li>
 							<li>No offendit adipiscing has, elit antiopam delicatissimi qui eu, atqui vivendum no has.</li>
@@ -117,24 +133,29 @@
 	
 	<div data-role="page" id="pgSearch">
         <div data-role="header" data-position="fixed">
-            <table width="100%" cellspacing="0" cellpadding="0">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-                        <a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
-                        <a onclick="history.go(-1);" href="javascript:void(0);" style="display:none;" class="appLogoBackLink"><img src="Images/logo-back.png" id=""></a>
-                    </td>
-                    <td class="header-right">
-                        <div class="header-right-menu">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
 							<a href="#popupMenu1" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu1" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
 									</ul>
 							</div>
 						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
@@ -166,24 +187,29 @@
 	
 	<div data-role="page" id="pgHistory">
         <div data-role="header" data-position="fixed">
-            <table width="100%" cellspacing="0" cellpadding="0">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-                        <a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
-                        <a onclick="history.go(-1);" href="javascript:void(0);" style="display:none;" class="appLogoBackLink"><img src="Images/logo-back.png" id=""></a>
-                    </td>
-                    <td class="header-right">
-                        <div class="header-right-menu">
-							<a href="#popupMenu3" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
-							<div data-role="popup" id="popupMenu3" data-theme="a">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu2" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu2" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
 									</ul>
 							</div>
 						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
@@ -200,24 +226,29 @@
 	
 	<div data-role="page" id="pgAddStatus">
         <div data-role="header" data-position="fixed">
-            <table width="100%" cellspacing="0" cellpadding="0">
+           <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-                        <a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
-                        <a onclick="history.go(-1);" href="javascript:void(0);" style="display:none;" class="appLogoBackLink"><img src="Images/logo-back.png" id=""></a>
-                    </td>
-                    <td class="header-right">
-                        <div class="header-right-menu">
-							<a href="#popupMenu2" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
-							<div data-role="popup" id="popupMenu2" data-theme="a">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu3" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu3" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
 									</ul>
 							</div>
 						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
@@ -309,7 +340,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">Modality work list empty:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty1" value="Yes" checked="checked" /><label for="modalityWorkListEmpty1">Yes</label>
 									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty2" value="No" /><label for="modalityWorkListEmpty2">No</label>
@@ -318,7 +349,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">All software loaded and functioning:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning1" value="Yes" checked="checked" /><label for="allSoftwareLoadedAndFunctioning1">Yes</label>
 									<input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning2" value="No" /><label for="allSoftwareLoadedAndFunctioning2">No</label>
@@ -333,7 +364,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">NPD presets on system:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem1" value="Yes" checked="checked" /><label for="nPDPresetsOnSystem1">Yes</label>
 									<input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem2" value="No" /><label for="nPDPresetsOnSystem2">No</label>
@@ -342,7 +373,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">HDD free of patients studies:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies1" value="Yes" checked="checked" /><label for="hDDFreeOfPatientStudies1">Yes</label>
 									<input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies2" value="No" /><label for="hDDFreeOfPatientStudies2">No</label>
@@ -351,7 +382,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">Demo images loaded on hard drive:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive1" value="Yes" checked="checked" /><label for="demoImagesLoadedOnHardDrive1">Yes</label>
 									<input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive2" value="No" /><label for="demoImagesLoadedOnHardDrive2">No</label>
@@ -363,7 +394,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">System performed as expected:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected1" value="Yes" checked="checked" /><label for="systemPerformedAsExpected1">Yes</label>
 									<input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected2" value="No" /><label for="systemPerformedAsExpected2">No</label>
@@ -378,7 +409,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">Were any issues discovered with system during demo:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo1" value="Yes" checked="checked" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo1">Yes</label>
 									<input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo2" value="No" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo2">No</label>
@@ -387,7 +418,7 @@
 						</tr>        
 						<tr ng-show="wereAnyIssuesDiscoveredWithSystemDuringDemo=='Yes'">
 							<td class="add-status-label">Was service contacted:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="wasServiceContacted" id="wasServiceContacted1" value="Yes" checked="checked" /><label for="wasServiceContacted1">Yes</label>
 									<input type="radio" name="wasServiceContacted" id="wasServiceContacted2" value="No" /><label for="wasServiceContacted2">No</label>
@@ -396,7 +427,7 @@
 						</tr>    
 						<tr>
 							<td class="add-status-label">Confirm that you have removed modality work list from system:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem1" value="Yes" checked="checked" /><label for="ConfirmModalityWorkListRemovedFromSystem1">Yes</label>
 									<input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem2" value="No" /><label for="ConfirmModalityWorkListRemovedFromSystem2">No</label>
@@ -405,7 +436,7 @@
 						</tr>   
 						<tr>
 							<td class="add-status-label">Confirm that you have emptied system HDD emptied of all patient studies:</td>
-							<td>
+							<td class="radio-button-td">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies1" value="Yes" checked="checked" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies1">Yes</label>
 									<input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies2" value="No" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies2">No</label>
@@ -437,10 +468,29 @@
 	
 	<div data-role="page" id="pgRedirect">
 	    <div data-role="header">
-			<table width="100%" cellspacing="0" cellpadding="0" style="height: 72px;">
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
-					<td align="center" valign="bottom">
-                        <a onclick="" href="main.html#/home" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+					<td class="header-left">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu4" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu4" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
                     </td>
                 </tr>
             </table>
@@ -453,30 +503,36 @@
 	
 	<div data-role="page" id="pgHelp">
 	    <div data-role="header">
-			 <table width="100%" cellspacing="0" cellpadding="0">
+			 <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-                        <a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
-                        <a onclick="history.go(-1);" href="javascript:void(0);" style="display:none;" class="appLogoBackLink"><img src="Images/logo-back.png" id=""></a>
-                    </td>
-                    <td class="header-right">
-						<div class="header-right-menu">
-							<a href="#popupMenu6" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
-							<div data-role="popup" id="popupMenu6" data-theme="a">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu5" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu5" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
 									</ul>
 							</div>
 						</div>
                     </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
                 </tr>
             </table>
 	    </div>
 	    <div role="main" class="ui-content">  
 			<div id="divHelpContent">
+				<h1>Help</h1>
 				<p>Mel duis primis constituam ad. Magna nonumes ad vel. No cum option ceteros hendrerit, te qui aliquip abhorreant voluptaria, tamquam deserunt scribentur sit ut. Usu solum vocibus ex, in partem fuisset evertitur vel. Pertinax delicatissimi ex pri, an modo recusabo elaboraret mel, cum id dolorum omnesque. An pertinax signiferumque sea, ad porro euismod has.
 				</p><p>
 				Sed suas altera no, cu ubique ignota menandri has, odio ceteros oportere ut his. Quod populo deleniti ad cum. Postea debitis mei ex. Ne etiam oratio cum, eum no facer deterruisset consectetuer. Has nihil oporteat accusamus no, munere integre feugiat vix an, ut etiam numquam eloquentiam cum.
