@@ -144,15 +144,6 @@ function callbackLogin( data ){
 }
 
 
-function goBack()
-{
-	history.go(-1);
-}
-
-function goHome()
-{
-	NavigatePage("#pgHome");
-}
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
@@ -264,16 +255,7 @@ function callbackPopulateSearchResults(data)
 	}
 }
 
-function addStatusAction(id)
-{
-	NavigatePage('#pgAddStatus?id=' + id);
-}
 
-
-function showAboutMeMenu() 
-{
-	$( "#popupAboutMe" ).popup( "open" )
-}
 
 
 /******************* History ***********************/
@@ -773,10 +755,7 @@ function callbackSaveStatus(data)
 }
 
 
-function showTimedElem(id)
-{
-	$("#" + id).show();
-}
+
 
 
 /******************* Redirect Page ***********************/
@@ -790,10 +769,46 @@ $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 
 /*********************************************************/
 /******************* Helping Method **********************/
+function goBack()
+{
+	history.go(-1);
+}
+
+function goHome()
+{
+	NavigatePage("#pgHome");
+}
+
+function addStatusAction(id)
+{
+	NavigatePage('#pgAddStatus?id=' + id);
+}
+
+function showAboutMeMenu() 
+{
+	$( "#popupAboutMe" ).popup( "open" )
+}
+
+function showTimedElem(id)
+{
+	$("#" + id).show();
+}
 
 function NavigatePage(pageid)
 {
 	$.mobile.navigate(pageid, { transition : "slide"});
+}
+
+function scanBarcode() 
+{
+	cordova.plugins.barcodeScanner.scan(
+		function (result) {
+			$("#searchCatalogs").val(result.text);
+		}, 
+		function (error) {
+			alert("Scanning failed: " + error);
+		}
+	);
 }
 
 
