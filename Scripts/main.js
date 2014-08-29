@@ -9,6 +9,15 @@ var loggedUserEmail = "";
 var loggedUserPhone = "";
 
 $(document).ready(function () {
+	if (localstorage.get("userAuthenticationHeader") == null)
+	{
+		localstorage.set("userAuthenticationHeader", "");
+		localstorage.set("loggedUserDisplayName", "");
+		localstorage.set("loggedUserEmail", "");
+		localstorage.set("loggedUserPhone", "");
+	}
+
+
 	checkUserLogin();
 });
 
@@ -804,6 +813,8 @@ function scanBarcode()
 	cordova.plugins.barcodeScanner.scan(
 		function (result) {
 			$("#searchCatalogs").val(result.text);
+			NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+			performSearch();
 		}, 
 		function (error) {
 			alert("Scanning failed: " + error);
