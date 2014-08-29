@@ -28,6 +28,12 @@ var localstorage = {
     }
 };
 
+function getTimestamp()
+{
+	var d = new Date();
+	return d.getTime();
+}
+
 /*
 var createCookie = function(name, value, days) {
     var expires;

@@ -7,17 +7,9 @@ var userAuthenticationHeader = "";
 var loggedUserDisplayName = "";
 var loggedUserEmail = "";
 var loggedUserPhone = "";
+var loggedExpiration = 0;
 
 $(document).ready(function () {
-	if (localstorage.get("userAuthenticationHeader") == null)
-	{
-		localstorage.set("userAuthenticationHeader", "");
-		localstorage.set("loggedUserDisplayName", "");
-		localstorage.set("loggedUserEmail", "");
-		localstorage.set("loggedUserPhone", "");
-	}
-
-
 	checkUserLogin();
 });
 
@@ -31,6 +23,8 @@ $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 
 $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 	checkUserLogin();
+	
+	$("#td-error").text("");
 	
 	$('#password').keyup(function (event) {
 		if (event.which == 13) {
@@ -62,12 +56,14 @@ function SignOut()
 	localstorage.set("loggedUserDisplayName", "");
 	localstorage.set("loggedUserEmail", "");
 	localstorage.set("loggedUserPhone", "");
+	localstorage.set("loggedExpiration", "0");
 	
 	isUserLogin = false;
 	userAuthenticationHeader = "";
 	loggedUserDisplayName = "";
 	loggedUserEmail = "";
 	loggedUserPhone = "";
+	loggedExpiration = 0;
 	
 	NavigatePage("#pgLogin");
 }
@@ -75,18 +71,31 @@ function SignOut()
 
 function checkUserLogin()
 {
+	if (localstorage.get("userAuthenticationHeader") == null)
+	{
+		localstorage.set("userAuthenticationHeader", "");
+		localstorage.set("loggedUserDisplayName", "");
+		localstorage.set("loggedUserEmail", "");
+		localstorage.set("loggedUserPhone", "");
+		localstorage.set("loggedExpiration", "0");
+	}
+
 	userAuthenticationHeader = localstorage.get("userAuthenticationHeader");
 	loggedUserDisplayName = localstorage.get("loggedUserDisplayName");
 	loggedUserEmail = localstorage.get("loggedUserEmail");
 	loggedUserPhone = localstorage.get("loggedUserPhone");
+	loggedExpiration = parseInt(localstorage.get("loggedExpiration"));
 	
-	isUserLogin = (userAuthenticationHeader && loggedUserDisplayName && loggedUserEmail);
+	isUserLogin = (userAuthenticationHeader != null && userAuthenticationHeader != "" && 
+					loggedUserDisplayName != null && loggedUserDisplayName != "" &&
+					loggedUserEmail != null && loggedUserEmail != "" && loggedExpiration > getTimestamp());
 	
-    if (!isUserLogin)
+    if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
 	{
 		NavigatePage("#pgLogin");
 	}
-	else {
+	else if (isUserLogin)
+	{	
 		$(".spanLoginUser").text("" +loggedUserDisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
@@ -134,15 +143,16 @@ function callbackLogin( data ){
 		loggedUserPhone = data.d.results.phone;
 		$(".spanLoginUser").text("" +loggedUserDisplayName);
 		
-		var duration = 0.04; // 1 hour
 		if ($('#rememberMe').is(':checked'))
-			duration = 7; // 7 days
-		
+			loggedExpiration = getTimestamp() + 1210000000;	//2 weeks
+		else
+			loggedExpiration = getTimestamp() + 14400000; //4 hours
 		
 		localstorage.set("userAuthenticationHeader", userAuthenticationHeader);
 		localstorage.set("loggedUserDisplayName", loggedUserDisplayName);
 		localstorage.set("loggedUserEmail", loggedUserEmail);
 		localstorage.set("loggedUserPhone", loggedUserPhone);
+		localstorage.set("loggedExpiration", loggedExpiration + "");
 		
 		NavigatePage("#pgHome");
 	}
@@ -808,18 +818,27 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
+function searchAction()
+{
+	NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+	performSearch();
+}
+
 function scanBarcode() 
 {
-	cordova.plugins.barcodeScanner.scan(
-		function (result) {
-			$("#searchCatalogs").val(result.text);
-			NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-			performSearch();
-		}, 
-		function (error) {
-			alert("Scanning failed: " + error);
-		}
-	);
+	try {
+		cordova.plugins.barcodeScanner.scan(
+			function (result) {
+				$("#searchCatalogs").val(result.text);
+				NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+				performSearch();
+			}, 
+			function (error) {
+				alert("Scanning failed: " + error);
+			}
+		);
+	}
+	catch(err) { }
 }
 
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <title></title>
 
     <link rel="stylesheet" href="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.css" />
@@ -169,6 +169,9 @@
 					<tr>
 						<td>
 							<input type="search" name="search" id="searchCatalogs" value="" onsearch="alert('yes');" />
+						</td>
+						<td style="width: 45px;padding-top: 3px;" align="right">
+							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn"></a>
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
 							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn"></a>
