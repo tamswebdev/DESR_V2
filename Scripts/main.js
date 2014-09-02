@@ -13,6 +13,12 @@ $(document).ready(function () {
 	checkUserLogin();
 });
 
+document.addEventListener("deviceReady", function () {
+	try {
+		navigator.hide.hide();
+	} catch(err) { }
+}, false);
+
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
 });
@@ -827,16 +833,18 @@ function searchAction()
 function scanBarcode() 
 {
 	try {
-		cordova.plugins.barcodeScanner.scan(
-			function (result) {
-				$("#searchCatalogs").val(result.text);
-				NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-				performSearch();
-			}, 
-			function (error) {
-				alert("Scanning failed: " + error);
-			}
-		);
+		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+			cordova.plugins.barcodeScanner.scan(
+				function (result) {
+					$("#searchCatalogs").val(result.text);
+					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+					performSearch();
+				}, 
+				function (error) {
+					alert("Scanning failed: " + error);
+				}
+			);
+		}
 	}
 	catch(err) { }
 }
