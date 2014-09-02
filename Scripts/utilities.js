@@ -25,7 +25,14 @@ var localstorage = {
         } catch (e) {
             return null;
         }
-    }
+    },
+	clear: function(key) {
+		window.localStorage.setItem( key, JSON.stringify(this.getUserInfoDefault()) );
+		return this.getUserInfoDefault();
+	},
+	getUserInfoDefault: function() {
+		return {"AuthenticationHeader" : "", "DisplayName" : "", "Email" : "", "Phone" : "", "Expiration" : 0 };
+	}
 };
 
 function getTimestamp()

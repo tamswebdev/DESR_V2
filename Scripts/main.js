@@ -3,11 +3,7 @@ var spwebRootUrl = "http://tusspdev1/";
 
 
 var isUserLogin = false;
-var userAuthenticationHeader = "";
-var loggedUserDisplayName = "";
-var loggedUserEmail = "";
-var loggedUserPhone = "";
-var loggedExpiration = 0;
+var userInfoData = null;
 
 $(document).ready(function () {
 	checkUserLogin();
@@ -46,24 +42,14 @@ function SignOut()
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
 		async:false,
-		url: serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userAuthenticationHeader,
+		url: serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader,
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "",
     });
 
-	localstorage.set("userAuthenticationHeader", "");
-	localstorage.set("loggedUserDisplayName", "");
-	localstorage.set("loggedUserEmail", "");
-	localstorage.set("loggedUserPhone", "");
-	localstorage.set("loggedExpiration", "0");
-	
+	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
-	userAuthenticationHeader = "";
-	loggedUserDisplayName = "";
-	loggedUserEmail = "";
-	loggedUserPhone = "";
-	loggedExpiration = 0;
 	
 	NavigatePage("#pgLogin");
 }
@@ -71,24 +57,21 @@ function SignOut()
 
 function checkUserLogin()
 {
-	if (localstorage.get("userAuthenticationHeader") == null)
+	if (userInfoData == null)
 	{
-		localstorage.set("userAuthenticationHeader", "");
-		localstorage.set("loggedUserDisplayName", "");
-		localstorage.set("loggedUserEmail", "");
-		localstorage.set("loggedUserPhone", "");
-		localstorage.set("loggedExpiration", "0");
+		if (localstorage.get("userInfoData") != null)
+		{
+			userInfoData = localstorage.get("userInfoData");
+		}
+		else if (localstorage.get("userInfoData") == null)
+		{
+			userInfoData = getUserInfoDefault();
+		}
 	}
-
-	userAuthenticationHeader = localstorage.get("userAuthenticationHeader");
-	loggedUserDisplayName = localstorage.get("loggedUserDisplayName");
-	loggedUserEmail = localstorage.get("loggedUserEmail");
-	loggedUserPhone = localstorage.get("loggedUserPhone");
-	loggedExpiration = parseInt(localstorage.get("loggedExpiration"));
 	
-	isUserLogin = (userAuthenticationHeader != null && userAuthenticationHeader != "" && 
-					loggedUserDisplayName != null && loggedUserDisplayName != "" &&
-					loggedUserEmail != null && loggedUserEmail != "" && loggedExpiration > getTimestamp());
+	isUserLogin = (userInfoData.AuthenticationHeader != null && userInfoData.AuthenticationHeader != "" && 
+					userInfoData.DisplayName != null && userInfoData.DisplayName != "" &&
+					userInfoData.Email != null && userInfoData.Email != "" && userInfoData.Expiration > getTimestamp());
 	
     if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
 	{
@@ -96,7 +79,7 @@ function checkUserLogin()
 	}
 	else if (isUserLogin)
 	{	
-		$(".spanLoginUser").text("" +loggedUserDisplayName);
+		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
 	}
@@ -119,8 +102,8 @@ function LoginUser()
 	$("#td-error").text("").append(getLoadingMini());
 	
 	var loginname = ($('#login').val().indexOf("\\") > 0) ? $('#login').val() : "tamsdomain\\" + $('#login').val();
-	userAuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
-	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userAuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
+	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
+	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
 
 	$.ajax({
             crossDomain: true,
@@ -138,26 +121,22 @@ function LoginUser()
 function callbackLogin( data ){
 	if (data.d.results.issuccess) 
 	{
-		loggedUserDisplayName = data.d.results.name;
-		loggedUserEmail = data.d.results.email;
+		userInfoData.DisplayName = data.d.results.name;
+		userInfoData.Email = data.d.results.email;
 		loggedUserPhone = data.d.results.phone;
-		$(".spanLoginUser").text("" +loggedUserDisplayName);
+		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		
 		if ($('#rememberMe').is(':checked'))
-			loggedExpiration = getTimestamp() + 1210000000;	//2 weeks
+			userInfoData.Expiration = getTimestamp() + 1210000000;	//2 weeks
 		else
-			loggedExpiration = getTimestamp() + 14400000; //4 hours
+			userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 		
-		localstorage.set("userAuthenticationHeader", userAuthenticationHeader);
-		localstorage.set("loggedUserDisplayName", loggedUserDisplayName);
-		localstorage.set("loggedUserEmail", loggedUserEmail);
-		localstorage.set("loggedUserPhone", loggedUserPhone);
-		localstorage.set("loggedExpiration", loggedExpiration + "");
+		localstorage.set("userInfoData", userInfoData);
 		
 		NavigatePage("#pgHome");
 	}
 	else {
-		userAuthenticationHeader = "";
+		userInfoData = localstorage.getUserInfoDefault();
 		$('#td-error').html("Invalid login and/or password.");
 	}
 }
@@ -213,7 +192,7 @@ function callbackPopulateSystemTypes(data)
 function performSearch()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userAuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + ($.urlParam("systemtype") == "" ? "All": $.urlParam("systemtype"));
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + ($.urlParam("systemtype") == "" ? "All": $.urlParam("systemtype"));
 	$.ajax({
 		crossDomain: true,
 		type:"GET",
@@ -287,7 +266,7 @@ $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
 		async:true,
-		url: serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userAuthenticationHeader,
+		url: serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader,
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "callbackPopulateHistories",
@@ -481,7 +460,7 @@ function saveAdditionalComment(id) {
 			type:"GET",
 			contentType: "application/json; charset=utf-8",
 			async:true,
-			url: serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userAuthenticationHeader,
+			url: serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader,
 			data: {},
 			dataType: "jsonp",                
 			jsonpCallback: "callbackAddComment",
@@ -528,7 +507,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		
 		var today = new Date();
 		$("#catalog_System_x0020_Date").text((today.getMonth()+1) + '/' + today.getDate() + '/' + today.getFullYear());
-		$("#catalog_MCSS").text(loggedUserDisplayName);
+		$("#catalog_MCSS").text(userInfoData.DisplayName);
 	}
 	else 
 	{
@@ -578,7 +557,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 			type:"GET",
 			contentType: "application/json; charset=utf-8",
 			async:false,
-			url: serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userAuthenticationHeader + "&id=" + id,
+			url: serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id,
 			data: {},
 			dataType: "jsonp",                
 			jsonpCallback: "callbackLoadAddStatus"
@@ -729,7 +708,7 @@ function saveStatus(isFinal) {
 		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
-			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userAuthenticationHeader;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader;
 			
 			$.ajax({
 				crossDomain: true,
@@ -744,7 +723,7 @@ function saveStatus(isFinal) {
 		}
 		else 
 		{
-			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=No&authInfo=" + userAuthenticationHeader;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=No&authInfo=" + userInfoData.AuthenticationHeader;
 			
 			$.ajax({
 				crossDomain: true,
