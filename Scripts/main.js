@@ -13,12 +13,6 @@ $(document).ready(function () {
 	checkUserLogin();
 });
 
-document.addEventListener("deviceReady", function () {
-	try {
-		navigator.hide.hide();
-	} catch(err) { }
-}, false);
-
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
 });
