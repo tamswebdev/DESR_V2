@@ -831,6 +831,8 @@ function scanBarcode()
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					$("#searchCatalogs").val(result.text);
+					navigator.notification.vibrate(15);
+					
 					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
 					performSearch();
 				}, 
