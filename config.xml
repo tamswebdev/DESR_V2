@@ -19,7 +19,7 @@
 -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "io.tams.ULApps"
+        id        = "io.tams.ULApps.DEV"
         version   = "1.0.0">
 		
     <name>TAMS UL Apps - DEV</name>
