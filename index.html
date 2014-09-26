@@ -3,12 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <title></title>
+    <title>TAMS UL Apps</title>
 
     <link rel="stylesheet" href="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.css" />
+	<link rel="stylesheet" href="Scripts/simpledialog/jquery.mobile.simpledialog.min.css" />
     <link rel="stylesheet" href="Content/main.css" />
+	<script src="Scripts/environment-configs.js"></script>
     <script src="Scripts/jquery-2.1.0.min.js"></script>
     <script src="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.js"></script>
+	<script src="Scripts/simpledialog/jquery.mobile.simpledialog2.min.js"></script>
     <script src="Scripts/Base64Converter.js"></script>
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
@@ -80,7 +83,7 @@
 	 
 	
 	<div data-role="page" id="pgHome">
-        <div data-role="header">
+        <div data-role="header" data-position="fixed">
             <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
@@ -91,6 +94,8 @@
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
@@ -119,12 +124,13 @@
 			<br />
 			<center>
 				<div class="home-tip-box">
-					<div><b>Steps:</b></div>
+					<div><b>Steps to add a status:</b></div>
 					<div align="left">
 						<ol>
-							<li>Id paulo elaboraret ius, quaestio theophrastus pro ex.</li>
-							<li>No offendit adipiscing has, elit antiopam delicatissimi qui eu, atqui vivendum no has.</li>
-							<li>Molestiae abhorreant mnesarchum vix cu, hinc reformidans eos at.</li>
+							<li>Click on "Add Status"</li>
+							<li>Select your system or search by name or serial number or scan the bar code</li>
+							<li>You can also click on "Add Manually" if the system is not found</li>
+							<li>Fill the form and submit</li>
 						</ol>
 					</div>
 				</div>
@@ -145,6 +151,8 @@
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
@@ -211,6 +219,8 @@
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
@@ -240,7 +250,8 @@
 	
 	<div data-role="page" id="pgAddStatus">
         <div data-role="header" data-position="fixed">
-           <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+			<div style="display:none;"><div id="divStatusId"></div></div>
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
 						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
@@ -250,6 +261,8 @@
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
@@ -278,28 +291,28 @@
 							<td class="section-heading" colspan="2">System information</td>
 						</tr>
 						<tr>
-							<td class="add-status-label">System type*:</td>
+							<td class="add-status-label">System type<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_SystemType" class="add-status"></div>
 								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemType" /></div>
 							</td>
 						</tr>
 						<tr>
-							<td class="add-status-label">System serial number*:</td>
+							<td class="add-status-label">System serial number<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Product" class="add-status"></div>
 								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemSerialNumber" /></div>
 							</td>
 						</tr>
 						<tr>
-							<td class="add-status-label">Software version*:</td>
+							<td class="add-status-label">Software version<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Software_x0020_Version" class="add-status"></div>
 								<div class="add-new-status"><input type="text" class="form-control" id="inputSoftwareVersion" /></div>
 							</td>
 						</tr>
 						<tr>
-							<td class="add-status-label">Revision Level*:</td>
+							<td class="add-status-label">Revision Level:</td>
 							<td>
 								<div id="catalog_Revision_x0020_Level" class="add-status"></div>
 								<div class="add-new-status"><input type="text" class="form-control" id="inputRevisionLevel" /></div>
@@ -314,7 +327,7 @@
 							<td><div id="catalog_MCSS"></div></td>
 						</tr>
 						<tr>
-							<td class="add-status-label">Modality*:</td>
+							<td class="add-status-label">Modality<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Modality" class="add-status"></div>
 								<div class="add-new-status">
@@ -330,19 +343,20 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="add-status-label">Comments:</td>
-							<td>
-								<textarea class="form-control" id="Comments" rows="3"></textarea>
+							
+							<td colspan="2">
+								<div class="add-status-label">Comments:</div>
+								<textarea class="form-control" id="Comments" rows="3" style="width: 100%"></textarea>
 							</td>
 						</tr>
 						<tr>
 							<td class="section-heading" colspan="2">System condition on arrival</td>        
 						</tr>
 						<tr>
-							<td class="add-status-label">Control panel layout:</td>
-							<td>
+							<td colspan="2">
+								<div class="add-status-label">Control panel layout:</div>
 								<select id="controlPanelLayout" class="form-control">
-									<option value="">-- Please Select --</option>
+									<option value="N/A">-- N/A --</option>
 								</select>
 							</td>
 						</tr>
@@ -354,7 +368,7 @@
 						</tr>
 						<tr>
 							<td class="add-status-label">Modality work list empty:</td>
-							<td class="radio-button-td">
+							<td class="radio-button-td" style="min-width: 130px;">
 								<fieldset data-role="controlgroup" data-type="horizontal" >
 									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty1" value="Yes" checked="checked" /><label for="modalityWorkListEmpty1">Yes</label>
 									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty2" value="No" /><label for="modalityWorkListEmpty2">No</label>
@@ -462,13 +476,13 @@
 						<tr><td colspan="3" class="td-error-message" id="error-div2"></td></tr>
 						<tr>
 						   <td id="btnSubmitDraft">
-								<input type="button" value="Submit Draft" class="common-button" onclick="saveStatus('No')" />
+								<a href="javascript:void(0);" data-role="button" onclick="saveStatus('No')">Save<br/>Draft</a>
 							</td>
 							<td id="btnSubmitFinal">
-								<input type="button" value="Submit Final" class="common-button" onclick="saveStatus('Yes')" />
+								<a href="javascript:void(0);" data-role="button" onclick="saveStatus('Yes')">Submit<br/>Final</a>
 							</td>
 							 <td id="btnSubmitCancel">
-								<input type="button" value="Cancel" class="common-button" onclick="cancelStatus()" />
+								<a href="javascript:void(0);" data-role="button" onclick="cancelStatus()">Cancel<br/>Form</a>
 							</td>
 							
 						</tr>
@@ -492,6 +506,8 @@
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
@@ -516,7 +532,7 @@
     </div>
 	
 	<div data-role="page" id="pgHelp">
-	    <div data-role="header">
+	    <div data-role="header" data-position="fixed">
 			 <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
@@ -527,6 +543,8 @@
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
+										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
