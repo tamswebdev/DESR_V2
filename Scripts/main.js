@@ -11,10 +11,6 @@ $(document).ready(function () {
 	checkUserLogin();
 });
 
-$( window ).on( "orientationchange", function( event ) {
-	location.reload();
-
-});
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
