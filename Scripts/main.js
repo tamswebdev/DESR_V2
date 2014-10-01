@@ -472,6 +472,8 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$('#error-div2').text("");
 	$('#Comments').val("");
 	
+	$('#selectModality2').ddslick();
+	
 	
 	
 	if ($.urlParam("id") == "")
