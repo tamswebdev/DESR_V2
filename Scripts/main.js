@@ -9,32 +9,12 @@ var $scope = null;
 $(document).ready(function () {
 	$.mobile.pageLoadErrorMessage = "";
 	checkUserLogin();
-	
-	//Load System Types from localstorage
-	var localSystemTypes = localstorage.get("localSystemTypes");
-	if (localSystemTypes != null && localSystemTypes != "")
-	{
-		$('#filterDocumentType option[value!="All"]').remove();			
-		var _systemType = $.urlParam("systemtype");
-		var _localSystemTypes = localSystemTypes.split(";");
-		for (var i = 0; i < _localSystemTypes.length; i++)
-		{
-			if (_localSystemTypes[i] != "")
-				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
-		}
-		$("#filterDocumentType").selectmenu('refresh', true);
-	}	
-	
-	$("#filterDocumentType").prop('disabled',false);
-	
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
-	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
 });
 
 $( window ).on( "orientationchange", function( event ) {
-	//$("#filterDocumentType").selectmenu('refresh');
-	//$("#controlPanelLayout").selectmenu('refresh');
-	//$("#selectModality").selectmenu('refresh');
+	$("#filterDocumentType").selectmenu('refresh');
+	$("#controlPanelLayout").selectmenu('refresh');
+	$("#selectModality").selectmenu('refresh');
 });
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
@@ -138,7 +118,23 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
+	//Load System Types from localstorage
+	var localSystemTypes = localstorage.get("localSystemTypes");
+	if (localSystemTypes != null && localSystemTypes != "")
+	{
+		$('#filterDocumentType option[value!="All"]').remove();			
+		var _systemType = $.urlParam("systemtype");
+		var _localSystemTypes = localSystemTypes.split(";");
+		for (var i = 0; i < _localSystemTypes.length; i++)
+		{
+			if (_localSystemTypes[i] != "")
+				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
+		}
+		$("#filterDocumentType").selectmenu('refresh', true);
+	}	
 	
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
 	performSearch();
 });
 
