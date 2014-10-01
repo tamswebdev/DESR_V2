@@ -12,7 +12,7 @@ $(document).ready(function () {
 });
 
 $( window ).on( "orientationchange", function( event ) {
-	$("#filterDocumentType").selectmenu('refresh');
+	//$("#filterDocumentType").selectmenu('refresh');
 	$("#controlPanelLayout").selectmenu('refresh');
 	$("#selectModality").selectmenu('refresh');
 });
@@ -130,7 +130,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 			if (_localSystemTypes[i] != "")
 				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
-		$("#filterDocumentType").selectmenu('refresh', true);
+		//$("#filterDocumentType").selectmenu('refresh', true);
 	}	
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
@@ -152,7 +152,7 @@ function callbackPopulateSystemTypes(data)
 				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
 			}
-			$("#filterDocumentType").selectmenu('refresh', true);			
+			//$("#filterDocumentType").selectmenu('refresh', true);			
 			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
