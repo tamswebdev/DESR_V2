@@ -33,7 +33,7 @@
 
 
     <!-- Application start page -->
-    <content src="test.html"/>
+    <content src="index.html"/>
 
 	
     <!--
