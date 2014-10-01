@@ -14,7 +14,7 @@ $(document).ready(function () {
 $( window ).on( "orientationchange", function( event ) {
 	$("#filterDocumentType").selectmenu('refresh');
 	$("#controlPanelLayout").selectmenu('refresh');
-	$("#selectModality").selectmenu('refresh');
+	//$("#selectModality").selectmenu('refresh');
 });
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
@@ -473,10 +473,15 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
 	$("#LayoutChangeExplainTR").hide();
 	$("#systemPerformedNotAsExpectedExplainTR").hide();
-	$("#selectModality").val('UL').selectmenu('refresh', true);
+	$("#selectModality").val('UL');//.selectmenu('refresh', true);
 	$('#error-div2').text("");
 	$('#Comments').val("");
 	
+	
+	$('#selectModality').selectBox({
+		mobile: true,
+		menuSpeed: 'fast'
+	});
 	
 	
 	if ($.urlParam("id") == "")
@@ -620,7 +625,7 @@ function callbackLoadDraftStatus(data)
 			$("#inputSystemSerialNumber").val(item.SerialNumber);
 			$("#inputSoftwareVersion").val(item.SoftwareVersion);
 			$("#inputRevisionLevel").val(item.RevisionLevel);
-			$("#selectModality").val(item.Modality).selectmenu('refresh', true);
+			$("#selectModality").val(item.Modality);//.selectmenu('refresh', true);
 			
 			$("#Comments").val(item.Comments);
 			$("#controlPanelLayout").val(item.ControlPanelLayout).selectmenu('refresh', true);

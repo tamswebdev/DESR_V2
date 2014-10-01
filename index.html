@@ -7,11 +7,14 @@
 
     <link rel="stylesheet" href="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.css" />
 	<link rel="stylesheet" href="Scripts/simpledialog/jquery.mobile.simpledialog.min.css" />
+	<link href="Scripts/marcj-jquery-selectBox/jquery.selectbox.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="Content/main.css" />
+	
 	<script src="Scripts/environment-configs.js"></script>
     <script src="Scripts/jquery-2.1.0.min.js"></script>
     <script src="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.js"></script>
 	<script src="Scripts/simpledialog/jquery.mobile.simpledialog2.min.js"></script>
+	<script src="Scripts/marcj-jquery-selectBox/jquery.selectBox.js" type="text/javascript"></script>
     <script src="Scripts/Base64Converter.js"></script>
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
@@ -331,7 +334,7 @@
 							<td>
 								<div id="catalog_Modality" class="add-status"></div>
 								<div class="add-new-status">
-									<select class="form-control" id="selectModality">
+									<select class="form-control" id="selectModality" data-role="none">
 										<option value="">-- Please Select --</option>
 										<option value="CT">CT</option>
 										<option value="MR">MR</option>
