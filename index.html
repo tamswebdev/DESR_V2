@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="cordova.js"></script>
 </head>
 
-<body>
+<body onload="documentonload();">
 Content of the document......
 <div class="add-new-status">
 	<select class="form-control" id="selectModality">
@@ -19,6 +19,16 @@ Content of the document......
 		<option value="XR">XR</option>
 	</select>
 </div>
+<script type="text/javascript">
+function documentonload()
+{
+	var dropdown = document.getElementById('selectModality');
+	dropdown.addEventListener('touchstart', function(e) {
+		e.stopPropagation();
+	}, false);
+}
+</script>
+
 </body>
 
 </html> 
