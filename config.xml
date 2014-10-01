@@ -22,7 +22,7 @@
         id        = "io.tams.ULApps.DEV"
         version   = "1.0.0">
 		
-    <name>TAMS UL Apps - DEV</name>
+    <name>DEV - TAMS UL Apps</name>
     <description>
         Demo Equipment Status Request. Author: TAMS Web Team
     </description>
