@@ -16,7 +16,7 @@ $( window ).on( "orientationchange", function( event ) {
 	$("#controlPanelLayout").selectmenu('refresh');
 	$("#selectModality").selectmenu('refresh');
 	
-	$("#filterDocumentType") .prop('disabled',false);
+	$("#filterDocumentType").prop('disabled',false);
 });
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
@@ -135,7 +135,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		$("#filterDocumentType").selectmenu('refresh', true);
 	}	
 	
-	$("#filterDocumentType") .prop('disabled',false);
+	$("#filterDocumentType").prop('disabled',false);
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
