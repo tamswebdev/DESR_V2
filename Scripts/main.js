@@ -12,9 +12,9 @@ $(document).ready(function () {
 });
 
 $( window ).on( "orientationchange", function( event ) {
-	$("#filterDocumentType").selectmenu('refresh', true);
-	$("#controlPanelLayout").selectmenu('refresh', true);
-	$("#selectModality").selectmenu('refresh', true);
+	$("#filterDocumentType").selectmenu('refresh');
+	$("#controlPanelLayout").selectmenu('refresh');
+	$("#selectModality").selectmenu('refresh');
 });
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
