@@ -11,6 +11,10 @@ $(document).ready(function () {
 	checkUserLogin();
 });
 
+$( window ).on( "orientationchange", function( event ) {
+	alert("orientation");
+});
+
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
 });
