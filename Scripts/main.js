@@ -12,9 +12,7 @@ $(document).ready(function () {
 });
 
 $( window ).on( "orientationchange", function( event ) {
-	$("#filterDocumentType").selectmenu('refresh');
-	$("#controlPanelLayout").selectmenu('refresh');
-	$("#selectModality").selectmenu('refresh');
+	location.reload();
 
 });
 
