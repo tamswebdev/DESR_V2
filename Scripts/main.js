@@ -7,6 +7,7 @@ var userInfoData = null;
 var $scope = null;
 
 $(document).ready(function () {
+	alert(location.href);
 	$.mobile.pageLoadErrorMessage = "";
 	checkUserLogin();
 });
