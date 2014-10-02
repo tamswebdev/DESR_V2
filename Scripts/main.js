@@ -6,7 +6,9 @@ var isUserLogin = false;
 var userInfoData = null;
 var $scope = null;
 
-$(document).ready(function () {
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
 	
 	alert(window.device.model);
@@ -14,7 +16,7 @@ $(document).ready(function () {
 	
 	checkUserLogin();	
 	initSystemTypes();
-});
+};
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
