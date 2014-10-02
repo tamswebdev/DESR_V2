@@ -468,7 +468,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
 	$("#LayoutChangeExplainTR").hide();
 	$("#systemPerformedNotAsExpectedExplainTR").hide();
-	$("#selectModality").val('UL').ddslick({width: "100%"});
+	$("#selectModality").val('UL').selectmenu('refresh', true);
 	$('#error-div2').text("");
 	$('#Comments').val("");
 	
@@ -616,7 +616,7 @@ function callbackLoadDraftStatus(data)
 			$("#inputSystemSerialNumber").val(item.SerialNumber);
 			$("#inputSoftwareVersion").val(item.SoftwareVersion);
 			$("#inputRevisionLevel").val(item.RevisionLevel);
-			$("#selectModality").val(item.Modality).ddslick({width: "100%"});
+			$("#selectModality").val(item.Modality).selectmenu('refresh', true);
 			
 			$("#Comments").val(item.Comments);
 			$("#controlPanelLayout").val(item.ControlPanelLayout).selectmenu('refresh', true);
