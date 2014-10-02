@@ -100,8 +100,10 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		}
 	});
 	
+	
 	$("#filterDocumentType").change(function (event) {
-		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType-button").find(".form-control").text());
+		alert($(this).val());
+		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($(this).val());
 		location.href=_searchurl;
 		location.reload(true);
 	});
