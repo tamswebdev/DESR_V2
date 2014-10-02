@@ -113,8 +113,6 @@ function callbackLogin( data ){
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
 	
-	
-	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
@@ -131,10 +129,11 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
 		$("#filterDocumentType").selectmenu('refresh', true);
-	}	
+	}
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
+	
 	performSearch();
 });
 
@@ -154,6 +153,7 @@ function callbackPopulateSystemTypes(data)
 			}
 			$("#filterDocumentType").selectmenu('refresh', true);			
 			localstorage.set("localSystemTypes", localSystemTypes);
+			
 		}
 	}
 	catch(err) {}
