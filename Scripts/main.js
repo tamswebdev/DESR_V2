@@ -112,6 +112,7 @@ function callbackLogin( data ){
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
+	alert("pagebeforeshow");
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
