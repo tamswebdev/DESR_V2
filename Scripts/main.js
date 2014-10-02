@@ -7,7 +7,6 @@ var userInfoData = null;
 var $scope = null;
 
 $(document).ready(function () {
-	alert(location.href);
 	$.mobile.pageLoadErrorMessage = "";
 	checkUserLogin();
 	
@@ -93,12 +92,9 @@ function callbackLogin( data ){
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
-	alert("pagebeforeshow");
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	
-	
 	
 	performSearch();
 });
@@ -116,15 +112,15 @@ function initSystemTypes()
 	});
 	
 	
-	//$("#filterDocumentType").change(function (event) {
+	$("#filterDocumentType").change(function (event) {
 		//alert($(this).val());
 		//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($(this).val());
 		//location.href=_searchurl;
 		//location.reload(true);
 		
 		//alert(document.getElementById("filterDocumentType").selectedIndex);
-		//searchAction();
-	//});
+		searchAction();
+	});
 	
 	//Load System Types from localstorage
 	var localSystemTypes = localstorage.get("localSystemTypes");
