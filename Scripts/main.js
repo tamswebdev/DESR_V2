@@ -22,15 +22,15 @@ $(document).ready(function () {
 	});
 	
 	
-	$("#filterDocumentType").change(function (event) {
+	//$("#filterDocumentType").change(function (event) {
 		//alert($(this).val());
 		//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($(this).val());
 		//location.href=_searchurl;
 		//location.reload(true);
 		
-		alert(document.getElementById("filterDocumentType").selectedIndex);
+		//alert(document.getElementById("filterDocumentType").selectedIndex);
 		//searchAction();
-	});
+	//});
 });
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
