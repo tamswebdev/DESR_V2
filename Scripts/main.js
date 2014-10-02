@@ -5,14 +5,26 @@ var spwebRootUrl = Configs.SharePointRootUrl;
 var isUserLogin = false;
 var userInfoData = null;
 var $scope = null;
+var deviceInfo = "";
 
-document.addEventListener("deviceready", onDeviceReady, false);
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+	document.addEventListener("deviceready", onDeviceReady, false);
+} else {
+	$( document ).ready(function() {
+		onDeviceReady(); //this is the browser
+	});
+	
+}
+	
 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
 	
-	alert(window.device.model);
-	alert(device.model + '<br />' + device.platform + '<br />' + device.version);
+	if (typeof device != 'undefined')
+		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
+	else
+		deviceInfo = "Web Browser";
+	alert(deviceInfo);
 	
 	checkUserLogin();	
 	initSystemTypes();
