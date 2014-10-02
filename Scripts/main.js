@@ -11,26 +11,7 @@ $(document).ready(function () {
 	$.mobile.pageLoadErrorMessage = "";
 	checkUserLogin();
 	
-	$('#searchCatalogs').keyup(function (event) {
-		if (event.which == 13) {
-			//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($( this ).val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-			//location.href=_searchurl;
-			//location.reload(true);
-		
-			searchAction();
-		}
-	});
-	
-	
-	//$("#filterDocumentType").change(function (event) {
-		//alert($(this).val());
-		//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($(this).val());
-		//location.href=_searchurl;
-		//location.reload(true);
-		
-		//alert(document.getElementById("filterDocumentType").selectedIndex);
-		//searchAction();
-	//});
+	initSystemTypes();
 });
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
@@ -117,6 +98,34 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
+	
+	
+	performSearch();
+});
+
+function initSystemTypes()
+{
+	$('#searchCatalogs').keyup(function (event) {
+		if (event.which == 13) {
+			//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($( this ).val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+			//location.href=_searchurl;
+			//location.reload(true);
+		
+			searchAction();
+		}
+	});
+	
+	
+	//$("#filterDocumentType").change(function (event) {
+		//alert($(this).val());
+		//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($(this).val());
+		//location.href=_searchurl;
+		//location.reload(true);
+		
+		//alert(document.getElementById("filterDocumentType").selectedIndex);
+		//searchAction();
+	//});
+	
 	//Load System Types from localstorage
 	var localSystemTypes = localstorage.get("localSystemTypes");
 	if (localSystemTypes != null && localSystemTypes != "")
@@ -134,9 +143,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
-	
-	performSearch();
-});
+}
 
 function callbackPopulateSystemTypes(data)
 {
