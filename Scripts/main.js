@@ -100,7 +100,11 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		}
 	});
 	
-	
+	$("#filterDocumentType").change(function (event) {
+		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType-button").find(".form-control").text());
+		location.href=_searchurl;
+		location.reload(true);
+	});
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
@@ -124,15 +128,6 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
 	performSearch();
 });
-
-function performSearchAction()
-{
-	//$("#filterDocumentType").change(function (event) {
-		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType :selected").val());
-		location.href=_searchurl;
-		location.reload(true);
-	//});
-}
 
 function callbackPopulateSystemTypes(data)
 {
