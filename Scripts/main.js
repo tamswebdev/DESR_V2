@@ -11,7 +11,6 @@ $(document).ready(function () {
 	checkUserLogin();
 });
 
-
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
 });
@@ -471,7 +470,6 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("#selectModality").val('UL').selectmenu('refresh', true);
 	$('#error-div2').text("");
 	$('#Comments').val("");
-	
 	
 	
 	
