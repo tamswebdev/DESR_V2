@@ -93,18 +93,14 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	$('#searchCatalogs').keyup(function (event) {
 		if (event.which == 13) {
-			var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-			//performSearch();
-			//$.mobile.changePage(_searchurl, { reloadPage: true });
+			var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($( this ).val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
 			location.href=_searchurl;
 			location.reload(true);
 		}
 	});
 	
 	$("#filterDocumentType").change(function (event) {
-		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-		//performSearch();
-		//$.mobile.changePage(_searchurl, { reloadPage: true });
+		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($( this ).val());
 		location.href=_searchurl;
 		location.reload(true);
 	})
