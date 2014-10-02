@@ -10,7 +10,7 @@ $(document).ready(function () {
 	$.mobile.pageLoadErrorMessage = "";
 	
 	alert(window.device.model);
-	alert(device.model    + '<br />' + device.platform + '<br />' + device.version');
+	alert(device.model + '<br />' + device.platform + '<br />' + device.version);
 	
 	checkUserLogin();	
 	initSystemTypes();
