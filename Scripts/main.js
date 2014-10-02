@@ -73,7 +73,7 @@ function callbackLogin( data ){
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
 			localstorage.set("userInfoData", userInfoData);
-			localstorage.clearHistory("navHistory");
+			//localstorage.clearHistory("navHistory");
 			
 			
 			NavigatePage("#pgHome");
@@ -96,6 +96,8 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
+	$("#filterDocumentType").selectmenu('refresh', true);
+	
 	performSearch();
 });
 
@@ -103,22 +105,11 @@ function initSystemTypes()
 {
 	$('#searchCatalogs').keyup(function (event) {
 		if (event.which == 13) {
-			//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($( this ).val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-			//location.href=_searchurl;
-			//location.reload(true);
-		
 			searchAction();
 		}
 	});
-	
-	
-	$("#filterDocumentType").change(function (event) {
-		//alert($(this).val());
-		//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($(this).val());
-		//location.href=_searchurl;
-		//location.reload(true);
 		
-		//alert(document.getElementById("filterDocumentType").selectedIndex);
+	$("#filterDocumentType").change(function (event) {
 		searchAction();
 	});
 	
@@ -134,7 +125,7 @@ function initSystemTypes()
 			if (_localSystemTypes[i] != "")
 				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
-		$("#filterDocumentType").selectmenu('refresh', true);
+		
 	}
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
@@ -154,10 +145,8 @@ function callbackPopulateSystemTypes(data)
 			{
 				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
-			}
-			$("#filterDocumentType").selectmenu('refresh', true);			
+			}		
 			localstorage.set("localSystemTypes", localSystemTypes);
-			
 		}
 	}
 	catch(err) {}
@@ -880,6 +869,7 @@ function SignOut()
 
 function checkUserLogin()
 {
+	/*
 	//Save Navigation History
 	var navHistory = [];
 	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
@@ -907,7 +897,7 @@ function checkUserLogin()
 	else
 		$(".menu-back-btn").show();
 	//console.log(localstorage.get("navHistory"));
-	//End of Navigation History /////
+	//End of Navigation History ////*/
 	
 
 	$(".network-unreachable").remove();
