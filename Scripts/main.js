@@ -30,18 +30,18 @@ function onDeviceReady() {
 	initSystemTypes();
 };
 
-$( document ).on( "pageinit", "#pgHome", function(event) {
+$( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
 });
 
-$( document ).on( "pageinit", "#pgHelp", function(event) {
+$( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 	checkUserLogin();
 });
 
-$( document ).on( "pageinit", "#pgLogin", function(event) {
+$( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 	checkUserLogin();
 	
 	$("#td-error").text("");
@@ -54,7 +54,7 @@ $( document ).on( "pageinit", "#pgLogin", function(event) {
 	
 });
 
-$( document ).on( "pageinit", "#pgSearch", function(event) {
+$( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
@@ -469,7 +469,7 @@ function callbackAddComment(data)
 
 
 /******************* Add Status ***********************/
-$( document ).on( "pageinit", "#pgAddStatus", function(event) {
+$( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	checkUserLogin();
 	
 	//clear the form

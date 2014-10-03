@@ -53,9 +53,10 @@ function NavigatePage(pageid)
 
 function searchAction()
 {
-	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	location.href=_searchurl;
-	location.reload(true);
+	performSearch();
+	//var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+	//location.href=_searchurl;
+	//location.reload(true);
 }
 
 function scanBarcode() 
