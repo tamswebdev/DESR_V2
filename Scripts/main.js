@@ -30,18 +30,18 @@ function onDeviceReady() {
 	initSystemTypes();
 };
 
-$( document ).on( "pagebeforeshow", "#pgHome", function(event) {
+$( document ).on( "pageinit", "#pgHome", function(event) {
 	checkUserLogin();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
 });
 
-$( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
+$( document ).on( "pageinit", "#pgHelp", function(event) {
 	checkUserLogin();
 });
 
-$( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
+$( document ).on( "pageinit", "#pgLogin", function(event) {
 	checkUserLogin();
 	
 	$("#td-error").text("");
@@ -53,6 +53,22 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 	});
 	
 });
+
+$( document ).on( "pageinit", "#pgSearch", function(event) {
+	checkUserLogin();
+	
+	$("#searchCatalogs").val($.urlParam("keyword"));	
+	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
+	
+	$("#filterDocumentType").selectmenu('refresh', true);
+	
+	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
+		deviceInfo = localstorage.get("DeviceInfo");
+	
+	performSearch();
+});
+
+
 
 
 function LoginUser()
@@ -108,21 +124,6 @@ function callbackLogin( data ){
 	}
 }
 
-
-
-$( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
-	checkUserLogin();
-	
-	$("#searchCatalogs").val($.urlParam("keyword"));	
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	
-	$("#filterDocumentType").selectmenu('refresh', true);
-	
-	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
-		deviceInfo = localstorage.get("DeviceInfo");
-	
-	performSearch();
-});
 
 function initSystemTypes()
 {
@@ -241,13 +242,6 @@ function callbackPopulateSearchResults(data)
 
 
 /******************* History ***********************/
-$( document ).on( "pagebeforeshow", "#pgHistory", function(event) {	
-	checkUserLogin();
-	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
-	
-	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
-	Jsonp_Call(_url, false, "callbackPopulateHistories");
-});
 
 function callbackPopulateHistories(data)
 {
@@ -475,7 +469,7 @@ function callbackAddComment(data)
 
 
 /******************* Add Status ***********************/
-$( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
+$( document ).on( "pageinit", "#pgAddStatus", function(event) {
 	checkUserLogin();
 	
 	//clear the form
