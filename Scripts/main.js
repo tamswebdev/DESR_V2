@@ -7,7 +7,7 @@ var userInfoData = null;
 var $scope = null;
 var deviceInfo = "";
 
-if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1) {
 	document.addEventListener("deviceready", onDeviceReady, false);
 } else {
 	$( document ).ready(function() {
@@ -15,7 +15,6 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 	});
 	
 }
-	
 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
@@ -24,6 +23,8 @@ function onDeviceReady() {
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
 	else
 		deviceInfo = "Web Browser";
+		
+	localstorage.set("DeviceInfo", deviceInfo);
 	
 	checkUserLogin();	
 	initSystemTypes();
@@ -116,6 +117,9 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
 	$("#filterDocumentType").selectmenu('refresh', true);
+	
+	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
+		deviceInfo = localstorage.get("DeviceInfo");
 	
 	performSearch();
 });
