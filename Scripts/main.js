@@ -7,7 +7,7 @@ var userInfoData = null;
 var $scope = null;
 var deviceInfo = "";
 
-if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1) {
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) {
 	document.addEventListener("deviceready", onDeviceReady, false);
 } else {
 	$( document ).ready(function() {
@@ -22,7 +22,7 @@ function onDeviceReady() {
 	if (typeof device != 'undefined')
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
 	else
-		deviceInfo = "Web Browser";
+		deviceInfo = "Browser:" + navigator.browserDetail;
 		
 	localstorage.set("DeviceInfo", deviceInfo);
 	
