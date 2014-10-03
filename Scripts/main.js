@@ -24,7 +24,6 @@ function onDeviceReady() {
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
 	else
 		deviceInfo = "Web Browser";
-	alert(deviceInfo);
 	
 	checkUserLogin();	
 	initSystemTypes();
@@ -32,6 +31,9 @@ function onDeviceReady() {
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
+
+	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
+	Jsonp_Call(_url, false, "");
 });
 
 $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
@@ -848,7 +850,7 @@ function Jsonp_Call(_url, _async, callback)
 				contentType: "application/json; charset=utf-8",
 				async:_async,
 				cache: false,
-				url: _url + "&nocachets=" + (new Date().getTime()),
+				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo),
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: callback,
