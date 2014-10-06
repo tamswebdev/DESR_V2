@@ -55,8 +55,8 @@ function searchAction()
 {
 	//performSearch();
 	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	location.href=_searchurl;
-	location.reload(true);	
+	location.replace(_searchurl);	
+	location.reload(true);
 }
 
 function scanBarcode() 
