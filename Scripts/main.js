@@ -79,7 +79,6 @@ function LoadSearchPage()
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
-	initSystemTypes();
 	$("#filterDocumentType").selectmenu('refresh', true);
 	
 	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
