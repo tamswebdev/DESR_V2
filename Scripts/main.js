@@ -258,6 +258,13 @@ function callbackPopulateSearchResults(data)
 
 
 /******************* History ***********************/
+$( document ).on( "pagebeforeshow", "#pgHistory", function(event) {	
+	checkUserLogin();
+	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
+	
+	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
+	Jsonp_Call(_url, false, "callbackPopulateHistories");
+});
 
 function callbackPopulateHistories(data)
 {
