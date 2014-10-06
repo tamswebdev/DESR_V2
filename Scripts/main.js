@@ -1,7 +1,8 @@
 var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
 
-
+var isPageLoadReady = false;
+var isSkipSearchLoad = false;
 var isUserLogin = false;
 var userInfoData = null;
 var $scope = null;
@@ -28,6 +29,11 @@ function onDeviceReady() {
 	
 	checkUserLogin();	
 	initSystemTypes();
+	
+	isPageLoadReady = true;
+	
+	if (isSkipSearchLoad)
+		LoadSearchPage();
 };
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
@@ -55,6 +61,17 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
+	if (isPageLoadReady)
+	{
+		LoadSearchPage();
+	}
+	else {
+		isSkipSearchLoad = true;
+	}
+});
+
+function LoadSearchPage()
+{
 	checkUserLogin();
 	$("#td-error").text("");
 	
@@ -69,10 +86,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		deviceInfo = localstorage.get("DeviceInfo");
 	
 	performSearch();
-});
-
-
-
+}
 
 function LoginUser()
 {
@@ -183,7 +197,7 @@ function callbackPopulateSystemTypes(data)
 function performSearch()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + ($.urlParam("systemtype") == "" ? "All": $.urlParam("systemtype"));
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + $("#filterDocumentType").val();
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
 }
