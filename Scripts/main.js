@@ -39,11 +39,11 @@ $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 
 $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 	checkUserLogin();
+	$("#td-error").text("");
 });
 
 $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
-	checkUserLogin();
-	
+	checkUserLogin();	
 	$("#td-error").text("");
 	
 	$('#password').keyup(function (event) {
@@ -56,6 +56,7 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
+	$("#td-error").text("");
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
