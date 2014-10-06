@@ -470,7 +470,7 @@ function saveAdditionalComment(id) {
 	if (jQuery.trim(comment) != "") {
 		$("#divAddCommentError" + id).text("").append(getLoadingMini()).show();
 		
-		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader;
+		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader + "&WorkPhone=" + userInfoData.Phone;
 		Jsonp_Call(_url, false, "callbackAddComment");
 	}
 	else {
