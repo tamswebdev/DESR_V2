@@ -854,7 +854,7 @@ function Jsonp_Call(_url, _async, callback)
 				dataType: "jsonp",                
 				jsonpCallback: callback,
 				error: function(jqXHR, textStatus, errorThrown) {
-					if (textStatus.toLowerCase() == "error)
+					if (textStatus.toLowerCase() == "error")
 					{
 						$("img[src='Images/loading.gif']").each(function () {
 							$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
