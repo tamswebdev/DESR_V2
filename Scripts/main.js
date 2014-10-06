@@ -58,9 +58,11 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	checkUserLogin();
 	$("#td-error").text("");
 	
+	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
+	initSystemTypes();
 	$("#filterDocumentType").selectmenu('refresh', true);
 	
 	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
