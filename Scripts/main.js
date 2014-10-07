@@ -153,6 +153,9 @@ function initSystemTypes()
 		searchAction();
 	});
 	
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
+	
 	//Load System Types from localstorage
 	var localSystemTypes = localstorage.get("localSystemTypes");
 	if (localSystemTypes != null && localSystemTypes != "")
@@ -167,9 +170,6 @@ function initSystemTypes()
 		}
 		
 	}
-	
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
-	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
 }
 
 function callbackPopulateSystemTypes(data)
