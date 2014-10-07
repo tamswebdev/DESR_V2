@@ -85,7 +85,7 @@ function LoadSearchPage()
 	});
 		
 	$("#filterDocumentType").change(function (event) {
-		searchAction();
+		searchAction(isWebBrowser);
 	});
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	

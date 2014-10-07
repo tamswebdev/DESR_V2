@@ -51,11 +51,13 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
-function searchAction()
+function searchAction(refresh)
 {
+	refresh = typeof refresh !== 'undefined' ? refresh : true;
 	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	location.replace(_searchurl);	
-	location.reload(true);
+	location.replace(_searchurl);
+	if (refresh)
+		location.reload(true);
 }
 
 function scanBarcode() 
