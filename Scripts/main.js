@@ -78,6 +78,15 @@ function LoadSearchPage()
 	checkUserLogin();
 	$("#td-error").text("");
 	
+	$('#searchCatalogs').keypress(function (event) {
+		if (event.which == 13) {
+			searchAction();
+		}
+	});
+		
+	$("#filterDocumentType").change(function (event) {
+		searchAction();
+	});
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
@@ -146,15 +155,7 @@ function callbackLogin( data ){
 
 function initSystemTypes()
 {
-	$('#searchCatalogs').keyup(function (event) {
-		if (event.which == 13) {
-			searchAction();
-		}
-	});
-		
-	$("#filterDocumentType").change(function (event) {
-		searchAction();
-	});
+	
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	

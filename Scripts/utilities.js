@@ -53,7 +53,6 @@ function NavigatePage(pageid)
 
 function searchAction()
 {
-	alert("Here");
 	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
 	location.replace(_searchurl);	
 	if (isWebBrowser)
