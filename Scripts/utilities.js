@@ -169,6 +169,6 @@ navigator.browserDetail = (function(){
 function ShowHelpSection(id)
 {
 	$('html, body').animate({
-        scrollTop: $(id).offset().top -70
+        scrollTop: $(id).offset().top -80
     }, 1000);
 }
