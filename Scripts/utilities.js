@@ -164,3 +164,11 @@ navigator.browserDetail = (function(){
     M= M? [M[1], M[2]]: [N, navigator.appVersion,'-?'];
     return M;
 })();
+
+
+function ShowHelpSection(id)
+{
+	$('html, body').animate({
+        scrollTop: $(id).offset().top - 50
+    }, 1000);
+}
