@@ -178,10 +178,10 @@
 							<input type="search" name="search" id="searchCatalogs" value="" />
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
-							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn"></a>
+							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn" /></a>
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
-							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn"></a>
+							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
 						</td>
 					</tr>
 				</table>
@@ -300,7 +300,10 @@
 							<td class="add-status-label">System serial number<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Product" class="add-status"></div>
-								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemSerialNumber" /></div>
+								<div class="add-new-status">
+									<input type="text" class="form-control" id="inputSystemSerialNumber" />
+									<a href="javascript: void(0);" onclick="scanSerialNumBarcode();" style="position: relative;margin-right: 5px;margin-top: -35px; float:right;" class="appScanBarcodeLink"><img src="Images/barcode2.png" id="img-barcode-sn-btn" />
+								</div>
 							</td>
 						</tr>
 						<tr>
