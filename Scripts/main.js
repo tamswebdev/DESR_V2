@@ -2,7 +2,7 @@ var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
 
 var isPageLoadReady = false;
-var isSkipSearchLoad = false;
+var isSkipPageLoad = "";
 var isUserLogin = false;
 var isWebBrowser = false;
 var userInfoData = null;
@@ -11,6 +11,8 @@ var deviceInfo = "";
 
 var userLongitude = 0;
 var userLatitude = 0;
+var userSearchText = "";
+var userSearchSystemType = "All";
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
@@ -38,16 +40,33 @@ function onDeviceReady() {
 	
 	isPageLoadReady = true;
 	
-	//if (isSkipSearchLoad)
-		//LoadSearchPage();
+	if (isSkipPageLoad != "")
+	{
+		if (isSkipPageLoad == "pgSearch")
+			LoadSearchPage();
+		else if (isSkipPageLoad == "pgHome")
+			pgHome_pagebeforeshow();
+	}
 };
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
+	if (!isPageLoadReady)
+	{
+		isSkipPageLoad = "pgHome";
+		return;
+	}
+	
+	pgHome_pagebeforeshow();	
+});
+
+function pgHome_pagebeforeshow()
+{
 	checkUserLogin();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
-});
+}
+
 
 $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 	checkUserLogin();
@@ -67,45 +86,23 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
-	//if (isPageLoadReady)
-	//{
-		//LoadSearchPage();
-	//}
-	//else {
-		//isSkipSearchLoad = true;
-	//}
-	//alert("here");
+	if (!isPageLoadReady)
+	{
+		isSkipPageLoad = "pgSearch";
+		return;
+	}
+	
 	checkUserLogin();
-	performSearch();
+	LoadSearchPage();
 });
 
-/*
+
 function LoadSearchPage()
 {
-	checkUserLogin();
-	$("#td-error").text("");
-	
-	$('#searchCatalogs').keypress(function (event) {
-		if (event.which == 13) {
-			searchAction();
-		}
-	});
-		
-	$("#filterDocumentType").change(function (event) {
-		searchAction(isWebBrowser);
-	});
-	
-	$("#searchCatalogs").val($.urlParam("keyword"));	
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	
-	$("#filterDocumentType").selectmenu('refresh', true);
-	
-	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
-		deviceInfo = localstorage.get("DeviceInfo");
-	
+	checkUserLogin();	
 	performSearch();
 }
-*/
+
 
 function LoginUser()
 {
@@ -173,12 +170,11 @@ function initSystemTypes()
 	if (localSystemTypes != null && localSystemTypes != "")
 	{
 		$('#filterDocumentType option[value!="All"]').remove();			
-		var _systemType = $.urlParam("systemtype");
 		var _localSystemTypes = localSystemTypes.split(";");
 		for (var i = 0; i < _localSystemTypes.length; i++)
 		{
 			if (_localSystemTypes[i] != "")
-				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
+				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((userSearchSystemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
 		
 	}
@@ -192,10 +188,9 @@ function callbackPopulateSystemTypes(data)
 			$('#filterDocumentType option[value!="All"]').remove();
 			
 			var localSystemTypes = "";
-			var _systemType = $.urlParam("systemtype");
 			for (var i = 0; i < data.d.results.length; i++)
 			{
-				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
+				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((userSearchSystemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
 			}		
 			localstorage.set("localSystemTypes", localSystemTypes);
@@ -208,7 +203,8 @@ function callbackPopulateSystemTypes(data)
 function performSearch()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + $("#filterDocumentType").val();
+	//var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + $("#filterDocumentType").val();
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
 }

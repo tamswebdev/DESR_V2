@@ -29,13 +29,9 @@ function NavigatePage(pageid)
 function searchAction(refresh)
 {
 	refresh = typeof refresh !== 'undefined' ? refresh : true;
-	var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	//location.replace(_searchurl);
-	//if (refresh)
-		//location.reload(true);
-	//alert(_searchurl);
-	//NavigatePage("#pgRedirect?url=" + encodeURIComponent(_searchurl));
-	//NavigatePage(_searchurl);
+	//var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+	userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
+	userSearchText = _encodeURIComponent($("#searchCatalogs").val())
 	performSearch();
 }
 
