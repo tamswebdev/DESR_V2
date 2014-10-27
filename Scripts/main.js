@@ -38,17 +38,8 @@ function onDeviceReady() {
 	
 	isPageLoadReady = true;
 	
-	navigator.geolocation.getCurrentPosition(
-		function (position) {
-			userLongitude = position.coords.longitude;
-			userLatitude = position.coords.latitude;
-		}, 
-		function (error) {
-		}
-	);
-	
-	if (isSkipSearchLoad)
-		LoadSearchPage();
+	//if (isSkipSearchLoad)
+		//LoadSearchPage();
 };
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
@@ -87,6 +78,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	performSearch();
 });
 
+/*
 function LoadSearchPage()
 {
 	checkUserLogin();
@@ -112,6 +104,7 @@ function LoadSearchPage()
 	
 	performSearch();
 }
+*/
 
 function LoginUser()
 {
@@ -928,15 +921,6 @@ function SignOut()
 
 function checkUserLogin()
 {
-	navigator.geolocation.getCurrentPosition(
-		function (position) {
-			userLongitude = position.coords.longitude;
-			userLatitude = position.coords.latitude;
-		}, 
-		function (error) {
-		}
-	);
-
 	$(".network-unreachable").remove();
 	
 	checkConnection();
@@ -965,6 +949,15 @@ function checkUserLogin()
 		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
+			
+		navigator.geolocation.getCurrentPosition(
+			function (position) {
+				userLongitude = position.coords.longitude;
+				userLatitude = position.coords.latitude;
+			}, 
+			function (error) {
+			}
+		);
 	}
 }
 
