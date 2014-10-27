@@ -876,7 +876,7 @@ function Jsonp_Call(_url, _async, callback)
 		$.ajax({
 				crossDomain: true,
 				type:"GET",
-				contentType: "application/json; charset=utf-8",
+				contentType: "application/javascript",
 				async:_async,
 				cache: false,
 				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo) + "&lon=" + userLongitude + "&lat=" + userLatitude,
