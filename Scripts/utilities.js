@@ -34,7 +34,9 @@ function searchAction(refresh)
 	//if (refresh)
 		//location.reload(true);
 	//alert(_searchurl);
-	NavigatePage("#pgRedirect?url=" + encodeURIComponent(_searchurl));
+	//NavigatePage("#pgRedirect?url=" + encodeURIComponent(_searchurl));
+	//NavigatePage(_searchurl);
+	performSearch();
 }
 
 function scanBarcode() 
