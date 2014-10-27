@@ -11,8 +11,6 @@ var deviceInfo = "";
 
 var userLongitude = 0;
 var userLatitude = 0;
-var userSearchText = "";
-var userSearchSystemType = "All";
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
@@ -142,7 +140,9 @@ function callbackLogin( data ){
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
 			localstorage.set("userInfoData", userInfoData);
-			//localstorage.clearHistory("navHistory");
+			
+			localstorage.set("userSearchSystemType", "All");
+			localstorage.set("userSearchText", "");
 			
 			
 			NavigatePage("#pgHome");
@@ -160,8 +160,6 @@ function callbackLogin( data ){
 
 function initSystemTypes()
 {
-	
-	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
 	
@@ -169,6 +167,7 @@ function initSystemTypes()
 	var localSystemTypes = localstorage.get("localSystemTypes");
 	if (localSystemTypes != null && localSystemTypes != "")
 	{
+		var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
 		$('#filterDocumentType option[value!="All"]').remove();			
 		var _localSystemTypes = localSystemTypes.split(";");
 		for (var i = 0; i < _localSystemTypes.length; i++)
@@ -185,6 +184,7 @@ function callbackPopulateSystemTypes(data)
 	try {
 		if (data.d.results.length > 0)
 		{
+			var userSearchSystemType = _decodeURIComponent((localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All"));
 			$('#filterDocumentType option[value!="All"]').remove();
 			
 			var localSystemTypes = "";
@@ -202,8 +202,12 @@ function callbackPopulateSystemTypes(data)
 
 function performSearch()
 {
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );
-	//var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + $("#filterDocumentType").val();
+	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
+	var userSearchText = _decodeURIComponent(localstorage.get("userSearchText") != null ? localstorage.get("userSearchText") :"");
+	var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
+	
+	$("#searchCatalogs").val(userSearchText);
+	
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");

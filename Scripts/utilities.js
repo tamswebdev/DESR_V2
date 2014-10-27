@@ -30,9 +30,15 @@ function searchAction(refresh)
 {
 	refresh = typeof refresh !== 'undefined' ? refresh : true;
 	//var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
-	userSearchText = _encodeURIComponent($("#searchCatalogs").val())
-	performSearch();
+	//userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
+	//userSearchText = _encodeURIComponent($("#searchCatalogs").val());
+	
+	localstorage.set("userSearchSystemType", _encodeURIComponent($("#filterDocumentType").val()));
+	localstorage.set("userSearchText", _encodeURIComponent($("#searchCatalogs").val()));
+	
+	location.href.replace("index.html#pgSearch");
+	window.location.reload(true);
+	//performSearch();
 }
 
 function scanBarcode() 
@@ -107,6 +113,11 @@ function _encodeURIComponent(value)
 	value = value.replace("/", "(FSLASH)").replace("\\", "(BSLASH)");
 	return encodeURIComponent(value);
 }
+function _decodeURIComponent(value)
+{
+	value = value.replace("(FSLASH)", "/").replace("(BSLASH)", "\\");
+	return decodeURIComponent(value);
+}
 
 function getLoadingImg()
 {
@@ -126,7 +137,10 @@ var localstorage = {
     },
     get: function (key) {
         try {
-            return JSON.parse( window.localStorage.getItem(key) );
+			if (window.localStorage.getItem(key) === null)
+				return null;
+			else
+				return JSON.parse( window.localStorage.getItem(key) );
         } catch (e) {
             return null;
         }
