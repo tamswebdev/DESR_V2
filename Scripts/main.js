@@ -75,6 +75,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		//isSkipSearchLoad = true;
 	//}
 	//alert("here");
+	checkUserLogin();
 	performSearch();
 });
 
