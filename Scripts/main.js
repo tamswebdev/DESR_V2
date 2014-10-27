@@ -9,6 +9,9 @@ var userInfoData = null;
 var $scope = null;
 var deviceInfo = "";
 
+var userLongitude = 0;
+var userLatitude = 0;
+
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
@@ -34,6 +37,15 @@ function onDeviceReady() {
 	initSystemTypes();
 	
 	isPageLoadReady = true;
+	
+	navigator.geolocation.getCurrentPosition(
+		function (position) {
+			userLongitude = position.coords.longitude;
+			userLatitude = position.coords.latitude;
+		}, 
+		function (error) {
+		}
+	);
 	
 	if (isSkipSearchLoad)
 		LoadSearchPage();
@@ -64,13 +76,15 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
-	if (isPageLoadReady)
-	{
-		LoadSearchPage();
-	}
-	else {
-		isSkipSearchLoad = true;
-	}
+	//if (isPageLoadReady)
+	//{
+		//LoadSearchPage();
+	//}
+	//else {
+		//isSkipSearchLoad = true;
+	//}
+	//alert("here");
+	performSearch();
 });
 
 function LoadSearchPage()
@@ -875,7 +889,7 @@ function Jsonp_Call(_url, _async, callback)
 				contentType: "application/json; charset=utf-8",
 				async:_async,
 				cache: false,
-				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo),
+				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo) + "&lon=" + userLongitude + "&lat=" + userLatitude,
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: callback,
@@ -912,39 +926,16 @@ function SignOut()
 	NavigatePage("#pgLogin");
 }
 
-
 function checkUserLogin()
 {
-	/*
-	//Save Navigation History
-	var navHistory = [];
-	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
-	{
-		navHistory = localstorage.get("navHistory").History.split(";");
-	}
-	else {
-		localstorage.clearHistory("navHistory");
-	}
-	
-	if (location.href.toLowerCase().indexOf("#pglogin") < 0 && location.href.toLowerCase().indexOf("#pgaddstatus") < 0 && location.href.toLowerCase().indexOf("&ui-state=dialog") < 0)
-	{
-		if (navHistory.length >= 10)
-			navHistory.shift();
-		
-		var _currentUrl = location.href.substring(location.href.indexOf("#"));
-		if (navHistory.length == 0 || (navHistory.length > 0 && navHistory[navHistory.length - 1] != _currentUrl))
-		{
-			navHistory.push(location.href.substring(location.href.indexOf("#")));
-			localstorage.set("navHistory", {"History" : navHistory.join(";"), "Expiration" : getTimestamp() + 180000});
+	navigator.geolocation.getCurrentPosition(
+		function (position) {
+			userLongitude = position.coords.longitude;
+			userLatitude = position.coords.latitude;
+		}, 
+		function (error) {
 		}
-	}
-	if (navHistory.length <= 1)
-		$(".menu-back-btn").hide();
-	else
-		$(".menu-back-btn").show();
-	//console.log(localstorage.get("navHistory"));
-	//End of Navigation History ////*/
-	
+	);
 
 	$(".network-unreachable").remove();
 	

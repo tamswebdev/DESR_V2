@@ -1,30 +1,5 @@
 /*********************************************************/
 /******************* Helping Method **********************/
-/*
-function goBack()
-{
-	var navHistory = [];
-	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
-	{
-		navHistory = localstorage.get("navHistory").History.split(";");
-	}
-	if (navHistory.length > 1)
-	{
-		navHistory.pop();
-		localstorage.set("navHistory", {"History" : navHistory.join(";"), "Expiration" : getTimestamp() + 180000});
-		var _backUrl = navHistory[navHistory.length - 1];
-		NavigatePage(_backUrl);
-		
-		if (_backUrl.toLowerCase().indexOf("#pgsearch") >= 0)
-			location.reload(true);
-	}
-	else
-	{
-		localstorage.clearHistory("navHistory");
-		NavigatePage("#pgHome");
-	}
-}
-*/
 
 function goHome()
 {
@@ -54,10 +29,12 @@ function NavigatePage(pageid)
 function searchAction(refresh)
 {
 	refresh = typeof refresh !== 'undefined' ? refresh : true;
-	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	location.replace(_searchurl);
-	if (refresh)
-		location.reload(true);
+	var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+	//location.replace(_searchurl);
+	//if (refresh)
+		//location.reload(true);
+	//alert('here1');
+	NavigatePage("#pgRedirect?url=" + encodeURIComponent(_searchurl));
 }
 
 function scanBarcode() 
