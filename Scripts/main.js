@@ -866,9 +866,9 @@ function callbackSaveStatus(data)
 
 /******************* Redirect Page ***********************/
 $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
-	if ($.urlParam("url"))
+	if ($.urlParamRedirect("url"))
 	{
-		NavigatePage(decodeURIComponent($.urlParam("url")));
+		NavigatePage(decodeURIComponent($.urlParamRedirect("url")));
 	}
 });
 

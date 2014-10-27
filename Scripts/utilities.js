@@ -33,7 +33,7 @@ function searchAction(refresh)
 	//location.replace(_searchurl);
 	//if (refresh)
 		//location.reload(true);
-	//alert('here1');
+	//alert(_searchurl);
 	NavigatePage("#pgRedirect?url=" + encodeURIComponent(_searchurl));
 }
 
@@ -98,6 +98,10 @@ function ShowHelp()
 
 $.urlParam = function(name){
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20')).replace("(FSLASH)","/").replace("(BSLASH)","\\") || "";
+}
+
+$.urlParamRedirect = function(name){
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20')) || "";
 }
 
 function _encodeURIComponent(value)
