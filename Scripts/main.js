@@ -950,15 +950,18 @@ function checkUserLogin()
 		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
-			
-		navigator.geolocation.getCurrentPosition(
-			function (position) {
-				userLongitude = position.coords.longitude;
-				userLatitude = position.coords.latitude;
-			}, 
-			function (error) {
-			}
-		);
+		
+		try {
+			navigator.geolocation.getCurrentPosition(
+				function (position) {
+					userLongitude = position.coords.longitude;
+					userLatitude = position.coords.latitude;
+				}, 
+				function (error) {
+				}
+			);
+		}
+		catch (err) {}
 	}
 }
 
