@@ -26,9 +26,8 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
-function searchAction(refresh)
+function searchAction()
 {
-	refresh = typeof refresh !== 'undefined' ? refresh : true;
 	//var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
 	//userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
 	//userSearchText = _encodeURIComponent($("#searchCatalogs").val());
