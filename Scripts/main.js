@@ -104,6 +104,9 @@ function LoadSearchPage()
 
 function LoginUser()
 {
+	localstorage.set("userSearchSystemType", "All");
+	localstorage.set("userSearchText", "");
+
 	if ($('#login') === undefined || $('#login').val() == '') {
 		$('#td-error').html('Please provide login.');
 		showTimedElem('td-error');
@@ -140,10 +143,6 @@ function callbackLogin( data ){
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
 			localstorage.set("userInfoData", userInfoData);
-			
-			localstorage.set("userSearchSystemType", "All");
-			localstorage.set("userSearchText", "");
-			
 			
 			NavigatePage("#pgHome");
 		}
@@ -199,7 +198,7 @@ function callbackPopulateSystemTypes(data)
 			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
-	catch(err) {alert(err);}
+	catch(err) {}
 }
 
 
@@ -919,6 +918,9 @@ function SignOut()
 
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
+	
+	localstorage.set("userSearchSystemType", "All");
+	localstorage.set("userSearchText", "");
 	
 	NavigatePage("#pgLogin");
 }
