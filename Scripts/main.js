@@ -60,6 +60,7 @@ $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 function pgHome_pagebeforeshow()
 {
 	checkUserLogin();
+	clearSearchCriteria();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
@@ -90,7 +91,6 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		return;
 	}
 	
-	checkUserLogin();
 	LoadSearchPage();
 });
 
@@ -104,8 +104,7 @@ function LoadSearchPage()
 
 function LoginUser()
 {
-	localstorage.set("userSearchSystemType", "All");
-	localstorage.set("userSearchText", "");
+	clearSearchCriteria();
 
 	if ($('#login') === undefined || $('#login').val() == '') {
 		$('#td-error').html('Please provide login.');
@@ -225,6 +224,11 @@ function performSearch()
 	
 	$("#searchCatalogs").val(userSearchText);
 	
+	try {
+		$('#filterDocumentType').val(_decodeURIComponent(userSearchSystemType)).selectmenu("refresh");
+	}catch (err) {}
+	
+	
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
@@ -289,6 +293,8 @@ function callbackPopulateSearchResults(data)
 /******************* History ***********************/
 $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {	
 	checkUserLogin();
+	clearSearchCriteria();
+	
 	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
@@ -523,6 +529,7 @@ function callbackAddComment(data)
 /******************* Add Status ***********************/
 $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	checkUserLogin();
+	clearSearchCriteria();
 	
 	//clear the form
 	$("table.table-add-status").find("input").each(function() {

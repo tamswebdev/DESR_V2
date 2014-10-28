@@ -6,6 +6,14 @@ function goHome()
 	NavigatePage("#pgHome");
 }
 
+function clearSearchCriteria()
+{
+	try {
+		localstorage.set("userSearchSystemType", "All");
+		localstorage.set("userSearchText", "");
+	} catch (err) {}
+}
+
 function addStatusAction(id)
 {
 	NavigatePage('#pgAddStatus?id=' + id);
