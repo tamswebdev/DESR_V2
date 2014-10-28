@@ -172,7 +172,7 @@ function initSystemTypes()
 			if (_localSystemTypes[i] != "")
 				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((userSearchSystemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
-		
+		$('#filterDocumentType').selectmenu("refresh");
 	}
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
@@ -195,6 +195,7 @@ function callbackPopulateSystemTypes(data)
 				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((userSearchSystemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
 			}		
+			$('#filterDocumentType').selectmenu("refresh");
 			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
