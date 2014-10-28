@@ -43,7 +43,7 @@ function searchAction()
 	localstorage.set("userSearchSystemType", _encodeURIComponent($("#filterDocumentType").val()));
 	localstorage.set("userSearchText", _encodeURIComponent($("#searchCatalogs").val()));
 	
-	location.href.replace("index.html#pgSearch");
+	location.href = "index.html#pgSearch";
 	window.location.reload(true);
 	//performSearch();
 }
