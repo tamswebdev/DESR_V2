@@ -198,7 +198,7 @@ function callbackPopulateSystemTypes(data)
 			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
-	catch(err) {}
+	catch(err) {alert(err);}
 }
 
 
