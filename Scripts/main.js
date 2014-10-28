@@ -205,8 +205,16 @@ function callbackPopulateSystemTypes(data)
 function performSearch()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	var userSearchText = _decodeURIComponent(localstorage.get("userSearchText") != null ? localstorage.get("userSearchText") :"");
-	var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
+	var userSearchText = "";
+	var userSearchSystemType = "All";
+	
+	try {
+		userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
+	} catch(err) {}
+	
+	try {
+		userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
+	} catch(err) {}
 	
 	$("#searchCatalogs").val(userSearchText);
 	
