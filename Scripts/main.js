@@ -60,7 +60,6 @@ $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 function pgHome_pagebeforeshow()
 {
 	checkUserLogin();
-	clearSearchCriteria();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
@@ -293,7 +292,6 @@ function callbackPopulateSearchResults(data)
 /******************* History ***********************/
 $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {	
 	checkUserLogin();
-	clearSearchCriteria();
 	
 	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
 	
@@ -529,7 +527,6 @@ function callbackAddComment(data)
 /******************* Add Status ***********************/
 $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	checkUserLogin();
-	clearSearchCriteria();
 	
 	//clear the form
 	$("table.table-add-status").find("input").each(function() {
@@ -941,8 +938,7 @@ function SignOut()
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
 	
-	localstorage.set("userSearchSystemType", "All");
-	localstorage.set("userSearchText", "");
+	clearSearchCriteria();
 	
 	NavigatePage("#pgLogin");
 }
