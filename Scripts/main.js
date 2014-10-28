@@ -221,7 +221,7 @@ function performSearch()
 		userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
 	} catch(err) {}
 	
-	$("#searchCatalogs").val(userSearchText);	
+	$("#searchCatalogs").val(_decodeURIComponent(userSearchText));	
 	
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
@@ -273,7 +273,25 @@ function callbackPopulateSearchResults(data)
 		else
 		{
 			//no item
-			$( "#divSearchResults" ).text("").append("<br /><center>No item found.</center>");
+			var temp = "<br /><center>No item found.</center>";
+			var userSearchText = "";
+			var userSearchSystemType = "All";
+			
+			try {
+				userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
+			} catch(err) {}
+			
+			try {
+				userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
+			} catch(err) {}
+			
+			temp += "<br />";			
+			if (userSearchText != "")
+				temp += "<div><center><i>Keyword:</i> <b>"+ _decodeURIComponent(userSearchText) +"</b></center></div>";
+
+			temp += "<div><center><i>System Type:</i> <b>"+ _decodeURIComponent(userSearchSystemType) +"</b></center></div>";
+			
+			$( "#divSearchResults" ).text("").append(temp);
 		}
 	}
 	catch(err) {
