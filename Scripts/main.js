@@ -221,12 +221,7 @@ function performSearch()
 		userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
 	} catch(err) {}
 	
-	$("#searchCatalogs").val(userSearchText);
-	
-	try {
-		$('#filterDocumentType').val(_decodeURIComponent(userSearchSystemType)).selectmenu("refresh");
-	}catch (err) {}
-	
+	$("#searchCatalogs").val(userSearchText);	
 	
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
