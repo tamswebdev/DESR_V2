@@ -186,7 +186,7 @@ function callbackPopulateSystemTypes(data)
 	try {
 		if (data.d.results.length > 0)
 		{
-			var userSearchSystemType = _decodeURIComponent((localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All"));
+			var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
 			$('#filterDocumentType option[value!="All"]').remove();
 			
 			var localSystemTypes = "";
