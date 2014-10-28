@@ -34,7 +34,7 @@ function onDeviceReady() {
 	localstorage.set("DeviceInfo", deviceInfo);
 	
 	checkUserLogin();	
-	initSystemTypes();
+	LoadSystemTypes();
 	
 	isPageLoadReady = true;
 	
@@ -90,6 +90,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		return;
 	}
 	
+	initSystemTypes();
 	LoadSearchPage();
 });
 
@@ -174,11 +175,12 @@ function initSystemTypes()
 			$('#filterDocumentType').selectmenu("refresh");
 		} catch (err) {}
 	}
-	
+}
+
+function LoadSystemTypes()
+{
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
-	
-	
 }
 
 function callbackPopulateSystemTypes(data)
