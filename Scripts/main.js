@@ -89,6 +89,12 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		performSearch();
 	});
 	
+	$( "#searchCatalogs" ).keypress(function(e) {
+		if (e.keyCode == 13) {
+            performSearch();
+        }
+	});
+	
 	$("#filterDocumentType").bind( "change", function(event, ui) {
 		//performSearch();
 	});
