@@ -210,7 +210,6 @@ function performSearch()
 
 function searchAction()
 {
-	alert("searchAction");
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
 	
 	userSearchText = $("#searchCatalogs").val();
@@ -267,22 +266,12 @@ function callbackPopulateSearchResults(data)
 		{
 			//no item
 			var temp = "<br /><center>No item found.</center>";
-			var userSearchText = "";
-			var userSearchSystemType = "All";
-			
-			try {
-				userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
-			} catch(err) {}
-			
-			try {
-				userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
-			} catch(err) {}
 			
 			temp += "<br />";			
 			if (userSearchText != "")
-				temp += "<div><center><i>Keyword:</i> <b>"+ _decodeURIComponent(userSearchText) +"</b></center></div>";
+				temp += "<div><center><i>Keyword:</i> <b>"+ userSearchText +"</b></center></div>";
 
-			temp += "<div><center><i>System Type:</i> <b>"+ _decodeURIComponent(userSearchSystemType) +"</b></center></div>";
+			temp += "<div><center><i>System Type:</i> <b>"+ userSearchSystemType +"</b></center></div>";
 			
 			$( "#divSearchResults" ).text("").append(temp);
 		}
