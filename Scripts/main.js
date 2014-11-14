@@ -105,8 +105,6 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 
 function LoginUser()
 {
-	clearSearchCriteria();
-
 	if ($('#login') === undefined || $('#login').val() == '') {
 		$('#td-error').html('Please provide login.');
 		showTimedElem('td-error');
@@ -965,8 +963,6 @@ function SignOut()
 
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
-	
-	clearSearchCriteria();
 	
 	NavigatePage("#pgLogin");
 }
