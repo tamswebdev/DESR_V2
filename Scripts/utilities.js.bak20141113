@@ -34,6 +34,20 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
+function searchAction()
+{
+	//var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+	//userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
+	//userSearchText = _encodeURIComponent($("#searchCatalogs").val());
+	
+	localstorage.set("userSearchSystemType", _encodeURIComponent($("#filterDocumentType").val()));
+	localstorage.set("userSearchText", _encodeURIComponent($("#searchCatalogs").val()));
+	
+	//location.href = "index.html#pgSearch";
+	//window.location.reload(true);
+	performSearch();
+}
+
 function scanBarcode() 
 {
 	try {
@@ -48,7 +62,7 @@ function scanBarcode()
 					{
 						$("#searchCatalogs").val(barcodeText);
 						navigator.notification.vibrate(20);
-						performSearch();
+						searchAction();
 					}
 				}, 
 				function (error) {
